@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<!-- saved from url=(0046)https://www.cnblogs.com/yunqing/p/7406752.html -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="origin">
+<title>使用带缓冲的字符流读取字符文件。 - 云晴 - 博客园</title>
+<meta property="og:description" content="首先不使用带缓冲的。 使用带缓冲的">
+<link type="text/css" rel="stylesheet" href="./使用带缓冲的字符流读取字符文件。 - 云晴 - 博客园_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="./使用带缓冲的字符流读取字符文件。 - 云晴 - 博客园_files/bundle-LessIsMoreRight.css">
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="./使用带缓冲的字符流读取字符文件。 - 云晴 - 博客园_files/bundle-LessIsMoreRight-mobile.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/yunqing/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/yunqing/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/yunqing/wlwmanifest.xml">
+<script src="./使用带缓冲的字符流读取字符文件。 - 云晴 - 博客园_files/f.txt"></script><script src="./使用带缓冲的字符流读取字符文件。 - 云晴 - 博客园_files/pubads_impl_rendering_274.js.下载"></script><script async="" src="./使用带缓冲的字符流读取字符文件。 - 云晴 - 博客园_files/analytics.js.下载"></script><script type="text/javascript" src="./使用带缓冲的字符流读取字符文件。 - 云晴 - 博客园_files/encoder.js.下载"></script><script src="./使用带缓冲的字符流读取字符文件。 - 云晴 - 博客园_files/jquery-2.2.0.min.js.下载"></script>
+<script type="text/javascript">var currentBlogApp = 'yunqing', cb_enable_mathjax=false;var isLogined=false;</script>
+<script src="./使用带缓冲的字符流读取字符文件。 - 云晴 - 博客园_files/blog-common.js.下载" type="text/javascript"></script>
+<link rel="preload" href="./使用带缓冲的字符流读取字符文件。 - 云晴 - 博客园_files/f(1).txt" as="script"><script type="text/javascript" src="./使用带缓冲的字符流读取字符文件。 - 云晴 - 博客园_files/f(1).txt"></script><script src="./使用带缓冲的字符流读取字符文件。 - 云晴 - 博客园_files/pubads_impl_274.js.下载" async=""></script><link rel="prefetch" href="https://tpc.googlesyndication.com/safeframe/1-0-31/html/container.html"></head>
+<body>
+<a name="top"></a>
+
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+		
+<!--done-->
+<div class="title"><a id="Header1_HeaderTitle" class="headermaintitle" href="https://www.cnblogs.com/yunqing/">云晴</a></div>
+<div class="subtitle">一天不进步，就是在退步 。</div>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li id="nav_sitehome"><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">博客园</a></li>
+<li id="nav_myhome"><a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/yunqing/">首页</a></li>
+<li id="nav_newpost"><a id="blog_nav_newpost" class="menu" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+<li id="nav_contact"><a id="blog_nav_contact" class="menu" rel="nofollow" href="https://msg.cnblogs.com/send/%E4%BA%91%E6%99%B4">联系</a></li>
+<li id="nav_rss"><a id="blog_nav_rss" class="menu" href="https://www.cnblogs.com/yunqing/rss">订阅</a>
+<!--<a id="blog_nav_rss_image" class="aHeaderXML" href="https://www.cnblogs.com/yunqing/rss"><img src="//www.cnblogs.com/images/xml.gif" alt="订阅" /></a>--></li>
+<li id="nav_admin"><a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a></li>
+</ul>
+
+		<div class="blogStats">
+			
+			<div id="blog_stats">
+<!--done-->
+随笔-126&nbsp;
+文章-0&nbsp;
+评论-12&nbsp;
+</div>
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/yunqing/p/7406752.html">使用带缓冲的字符流读取字符文件。</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="blogpost-body"><p>首先不使用带缓冲的。</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./使用带缓冲的字符流读取字符文件。 - 云晴 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #0000ff;">package</span><span style="color: #000000;"> com.yunqing;
+
+
+</span><span style="color: #0000ff;">import</span> java.io.*<span style="color: #000000;">;
+
+</span><span style="color: #0000ff;">public</span> <span style="color: #0000ff;">class</span><span style="color: #000000;"> readCharFile {
+    </span><span style="color: #0000ff;">public</span> <span style="color: #0000ff;">static</span> <span style="color: #0000ff;">void</span><span style="color: #000000;"> main(String[] args) {
+        </span><span style="color: #008000;">/*</span><span style="color: #008000;">
+    一、流的概念和作用
+　　学习Java IO流，我是真的有点无语啊。。。！相信很多学习Java的朋友在起初学习Java IO的时候都会觉得很简单，可是真正用的使用的时候又措手不及，这是一个比较正常的现象，这不能怪你，因为Java设计者在设计Java IO这个类库时，就已然注定了这样蛋疼的一个局面。Java IO的学习之难，主要有两点：其一是构建一个实例需要借助其他的一个或多个实例，其次是类多而杂。你需要以一种俯瞰的视角来对待Java IO，只要你了解了Java IO类库的层次关系，你就可以很好的使用它了，是不是很激动...^_^，下面让我们来看看流的概念：
+　　流：是一组有顺序的，有起点和终点的字节集合，是对数据传输的总称和抽象。即数据在两设备间的传输成为流，流的本质是数据传输，根据数据传输特性将流抽象为各种类，方便更直观的进行数据操作。
+        二、流的分类
+　　根据处理数据类型的不同分：字符流和字节流
+　　根据数据流向不同分为：输入流和输出流
+        三、字符流和字节流
+　　字符流的由来：因为数据编码的不同，而有了对字符进行高效操作的流对象。本质其实就是基于字节流读取时，去查了指定的码表。
+　　字节流和字符流的区别：
+　　（1）读写单位不同：字节流以字节（8bit）为单位，字符流以字符（16bit）为单位，根据码表映射字符。
+　　（2）处理对象不同：字节流能处理所有类型的数据（如：图片、音乐、视频等媒体介质），而字符流只能处理字符类型的数据。
+　　（3）字节流在操作的时候本身是不会用到缓冲区的，是文件本身的直接操作的；而字符流在操作的时候是会用到缓冲区的，是通过缓冲区来操作文件。
+　　建议：当我们在处理媒体介质时，请选择字节流；当我们在处理字符介质时，请选择字符流；当我们不明确操作的介质的类型时，请选择字节流。
+
+一般来说音乐、图像、流媒体文件都用字节流来读，文本文件用字符流来读。IO操作的本质都是字节流，所以当你用字符流从io设备读写东西的时候就需要涉及
+到字符集编码，即你想用什么编码来解释那些读到的或者即将写出的字节。所以java中的字符流对象都会有Charset参数。
+</span><span style="color: #008000;">*/</span>
+        <span style="color: #008000;">//</span><span style="color: #008000;">注意******本例子使用的IDE是idea
+        </span><span style="color: #008000;">//</span><span style="color: #008000;">idea的读取根目录文件</span>
+        File file =<span style="color: #0000ff;">new</span> File("java.txt"<span style="color: #000000;">);
+        </span><span style="color: #0000ff;">try</span><span style="color: #000000;"> {
+            </span><span style="color: #008000;">//</span><span style="color: #008000;">输入流</span>
+            FileInputStream fis=<span style="color: #0000ff;">new</span><span style="color: #000000;"> FileInputStream(file);
+            </span><span style="color: #008000;">//</span><span style="color: #008000;">InputStreamReader ： 是字节流与字符流之间的桥梁，能将字节流输出为字符流，并且能为字节流指定字符集，可输出一个个的字符；</span>
+            InputStreamReader isr=<span style="color: #0000ff;">new</span> InputStreamReader(fis,"GBK"<span style="color: #000000;">);
+            </span><span style="color: #008000;">//</span><span style="color: #008000;">输出流</span>
+            FileOutputStream fos=<span style="color: #0000ff;">new</span> FileOutputStream("new_java.txt"<span style="color: #000000;">);
+            </span><span style="color: #008000;">//</span><span style="color: #008000;">OutputStreamWriter 将字节流转换为字符流。是字节流通向字符流的桥梁。如果不指定字符集编码，该解码过程将使用平台默认的字符编码，如：GBK。
+            </span><span style="color: #008000;">//</span><span style="color: #008000;">主要方法：void write(int c);</span><span style="color: #008000;">//</span><span style="color: #008000;">将单个字符写入。
+            </span><span style="color: #008000;">//</span><span style="color: #008000;">viod write(String str,int off,int len);</span><span style="color: #008000;">//</span><span style="color: #008000;">将字符串某部分写入。
+            </span><span style="color: #008000;">//</span><span style="color: #008000;">void flush();</span><span style="color: #008000;">//</span><span style="color: #008000;">将该流中的缓冲数据刷到目的地中去</span>
+            OutputStreamWriter osw=<span style="color: #0000ff;">new</span><span style="color: #000000;"> OutputStreamWriter(fos);
+
+            </span><span style="color: #0000ff;">int</span><span style="color: #000000;"> len;
+            </span><span style="color: #0000ff;">char</span> char_[]=<span style="color: #0000ff;">new</span> <span style="color: #0000ff;">char</span>[100<span style="color: #000000;">];
+
+            </span><span style="color: #0000ff;">while</span>((len=isr.read(char_))!=-1<span style="color: #000000;">){
+                </span><span style="color: #008000;">//</span><span style="color: #008000;">System.out.println(char_);</span><span style="color: #008000;">//</span><span style="color: #008000;">这种写法读取的数据会与之前的有一些差别，会多出一些字符串在结尾
+                </span><span style="color: #008000;">//</span><span style="color: #008000;">读取char_,从第0个字符开始读取，读取len中的数据</span>
+                osw.write(char_,0<span style="color: #000000;">,len);
+            }
+            </span><span style="color: #008000;">//</span><span style="color: #008000;">后打开的先关闭</span>
+<span style="color: #000000;">            osw.close();
+            fos.close();
+            isr.close();
+            fis.close();
+
+            System.out.println(</span>"done"<span style="color: #000000;">);
+
+
+        } </span><span style="color: #0000ff;">catch</span><span style="color: #000000;"> (FileNotFoundException e) {
+            e.printStackTrace();
+        } </span><span style="color: #0000ff;">catch</span><span style="color: #000000;"> (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+}</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./使用带缓冲的字符流读取字符文件。 - 云晴 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>使用带缓冲的</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./使用带缓冲的字符流读取字符文件。 - 云晴 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #0000ff;">package</span><span style="color: #000000;"> com.yunqing;
+
+</span><span style="color: #0000ff;">import</span> java.io.*<span style="color: #000000;">;
+
+</span><span style="color: #0000ff;">public</span> <span style="color: #0000ff;">class</span><span style="color: #000000;"> readCharBuffer {
+    </span><span style="color: #0000ff;">public</span> <span style="color: #0000ff;">static</span> <span style="color: #0000ff;">void</span><span style="color: #000000;"> main(String[] args) {
+        </span><span style="color: #0000ff;">try</span><span style="color: #000000;"> {
+
+            FileInputStream fis</span>=<span style="color: #0000ff;">new</span> FileInputStream("java.txt"<span style="color: #000000;">);
+            FileOutputStream fos</span>=<span style="color: #0000ff;">new</span> FileOutputStream("java_buffer.txt"<span style="color: #000000;">);
+
+            InputStreamReader isr</span>=<span style="color: #0000ff;">new</span> InputStreamReader(fis,"GBK"<span style="color: #000000;">);
+            OutputStreamWriter osw</span>=<span style="color: #0000ff;">new</span><span style="color: #000000;"> OutputStreamWriter(fos);
+            </span><span style="color: #008000;">//</span><span style="color: #008000;">BufferedReader ： 提供通用的缓冲方式文本读取，readLine读取一个文本行， 从字符输入流中读取文本，缓冲各个字符，从而提供字符、数组和行的高效读取。</span>
+            BufferedReader br=<span style="color: #0000ff;">new</span><span style="color: #000000;"> BufferedReader(isr);
+            </span><span style="color: #008000;">//</span><span style="color: #008000;">这种方法读取的数据会根据换行来返回，最后得到的数据没有换行，都在一行。
+            </span><span style="color: #008000;">//</span><span style="color: #008000;">BufferedWriter bw=new BufferedWriter(osw);
+            </span><span style="color: #008000;">//</span>
+            <span style="color: #008000;">//</span><span style="color: #008000;">使用这种方法来读取一行并在末尾加上换行符
+            </span><span style="color: #008000;">//</span><span style="color: #008000;">true：autoFlush强制输出缓冲里的所有数据保证数据的完整性。这里不写true下面就要写</span><span style="color: #008000;">//</span><span style="color: #008000;">pw.flush();</span>
+            PrintWriter pw=<span style="color: #0000ff;">new</span> PrintWriter(osw,<span style="color: #0000ff;">true</span><span style="color: #000000;">);
+
+
+            String str;
+            </span><span style="color: #0000ff;">while</span> ((str=br.readLine())!=<span style="color: #0000ff;">null</span><span style="color: #000000;">){
+                </span><span style="color: #008000;">//</span><span style="color: #008000;">bw.write(str);</span>
+                pw.println(str);<span style="color: #008000;">//</span><span style="color: #008000;">输出缓冲区里的字符</span>
+<span style="color: #000000;">            }
+
+            </span><span style="color: #008000;">//</span><span style="color: #008000;">pw.flush();</span><span style="color: #008000;">//</span><span style="color: #008000;">把缓冲区的数据全部读取出来，保证数据的完整性</span>
+<span style="color: #000000;">            pw.close();
+            </span><span style="color: #008000;">//</span><span style="color: #008000;">bw.flush();</span><span style="color: #008000;">//</span><span style="color: #008000;">把缓冲区的数据全部读取出来，保证数据的完整性
+            </span><span style="color: #008000;">//</span><span style="color: #008000;">bw.close();</span>
+<span style="color: #000000;">            br.close();
+
+            osw.close();
+            isr.close();
+
+            fos.close();
+            fis.close();
+            System.out.println(</span>"done"<span style="color: #000000;">);
+
+
+        } </span><span style="color: #0000ff;">catch</span><span style="color: #000000;"> (FileNotFoundException e) {
+            e.printStackTrace();
+        } </span><span style="color: #0000ff;">catch</span><span style="color: #000000;"> (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./使用带缓冲的字符流读取字符文件。 - 云晴 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>&nbsp;</p></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory"></div>
+<div id="EntryTag"></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(7406752,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow(&#39;46fe72a7-6c0b-e511-b908-9dcfd8948a71&#39;);" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./使用带缓冲的字符流读取字符文件。 - 云晴 - 博客园_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="./使用带缓冲的字符流读取字符文件。 - 云晴 - 博客园_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/yunqing/" target="_blank"><img src="./使用带缓冲的字符流读取字符文件。 - 云晴 - 博客园_files/20150813150456.png" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/yunqing/">云晴</a><br>
+            <a href="http://home.cnblogs.com/u/yunqing/followees">关注 - 14</a><br>
+            <a href="http://home.cnblogs.com/u/yunqing/followers">粉丝 - 25</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow(&#39;46fe72a7-6c0b-e511-b908-9dcfd8948a71&#39;);return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(7406752,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(7406752,&#39;Bury&#39;)">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="https://www.cnblogs.com/yunqing/p/7402729.html" class="p_n_p_prefix">« </a> 上一篇：<a href="https://www.cnblogs.com/yunqing/p/7402729.html" title="发布于2017-08-21 09:52">有关定时器的问题</a><br><a href="https://www.cnblogs.com/yunqing/p/7601632.html" class="p_n_p_prefix">» </a> 下一篇：<a href="https://www.cnblogs.com/yunqing/p/7601632.html" title="发布于2017-09-27 14:32">一款css3的标签动画效果</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2017-08-21 21:22</span> <a href="https://www.cnblogs.com/yunqing/">云晴</a> 阅读(<span id="post_view_count">931</span>) 评论(<span id="post_comment_count">0</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=7406752" rel="nofollow">编辑</a> <a href="https://www.cnblogs.com/yunqing/p/7406752.html#" onclick="AddToWz(7406752);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,cb_blogId=239910,cb_entryId=7406752,cb_blogApp=currentBlogApp,cb_blogUserGuid='46fe72a7-6c0b-e511-b908-9dcfd8948a71',cb_entryCreatedDate='2017/8/21 21:22:00';loadViewCount(cb_entryId);var cb_postType=1;</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="https://www.cnblogs.com/yunqing/p/7406752.html#" onclick="return RefreshPage();">刷新页面</a><a href="https://www.cnblogs.com/yunqing/p/7406752.html#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login(&#39;commentform&#39;);">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank">【推荐】超50万VC++源码: 大型组态工控、电力仿真CAD与GIS源码库！</a><br><a href="http://clickc.admaster.com.cn/c/a116493,b2949399,c1705,i0,m101,8a1,8b3,h" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-华为云&#39;)">【推荐】华为云11.11普惠季 血拼风暴 一促即发</a><br><a href="https://www.grapecity.com.cn/developer/spreadjs?utm_source=cnblogs&amp;utm_medium=blogpage&amp;utm_term=bottom&amp;utm_content=SpreadJS&amp;utm_campaign=community" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-SpreadJS&#39;)">【工具】SpreadJS纯前端表格控件，可嵌入应用开发的在线Excel</a><br><a href="https://cloud.tencent.com/act/group/amd/index?fromSource=gwzcw.1608278.1608278.1608278" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-腾讯云&#39;)">【腾讯云】拼团福利，AMD云服务器8元/月</a><br></div>
+<div id="opt_under_post"></div>
+<div id="cnblogs_c1" class="c_ad_block"><a href="https://cloud.tencent.com/act/double11?fromSource=gwzcw.1608279.1608279.1608279" target="_blank"><img width="300" height="250" src="./使用带缓冲的字符流读取字符文件。 - 云晴 - 博客园_files/24442-20181105150013344-185546354.jpg" alt="腾讯云1105" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;C1&#39;);"></a></div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>相关博文：</b><br>·  <a href="https://www.cnblogs.com/yunqing/p/7401161.html" target="_blank" onclick="clickRecomItmem(7401161,&#39;0tBdD3pPfcQtFCIDUFTkqXvXE3dUqidvYBx8C9xlXd6RKL6mqupdIcTs4/AS2vSYumPt636KWL9+3UmSxjWmpjpaFTlPrgEhvXgtwIvse+1n7L1I8sZnxGLmpiK2mn9/wXVtTrkX58wc2TmLvjs=&#39;)">使用带缓冲的字节流读写数据</a><br>·  <a href="https://www.cnblogs.com/toLife/p/4930438.html" target="_blank" onclick="clickRecomItmem(4930438,&#39;Fm4lZiZkdxfkHMgYUdC7NwkPnxyM/v3OPp3fQ6D6oZ4aKO1GDUuFAmHsPy7yFtzXVcpvEouOrUOtbAeCRmgVrDYgv+5/idx7esSKNQoWXADAW5wAnD8ZmcK3OkfEgrz+Cuq77wNrfIV1h5hzSrU=&#39;)">Java IO流</a><br>·  <a href="https://www.cnblogs.com/davidIsOK/p/3916568.html" target="_blank" onclick="clickRecomItmem(3916568,&#39;CoBTfzNItmBlq4j2FFNht1VCdlEgCowXNrJAp2Zcq4sQ1I6hgKCcdsfczT7/x3Mm2me05i7nV+F+eaQOOxWaKIEPe9sEtP9r6NrkNsx/EGqC/How8hMK57BgTY+RNixe8o9stJJnZsu0Yt3Ok/A=&#39;)">Java IO 最详解，欢迎提出意见</a><br>·  <a href="https://www.cnblogs.com/bestixyh/p/6359048.html" target="_blank" onclick="clickRecomItmem(6359048,&#39;CNc2zk3/xlFFRMdfLEpNDZY8/CkEqBOy1mNjsdrmGVNyz1ZxBN4nD9DCLnKmt74TOEL0DPaPdvjUteEUGG9ztcA3gcTw9nlkDJE2PJN49X+80q+Uhw3muVJdI/tfYQ5rcvzTChWnHg+Z/qAWK80=&#39;)">20145226夏艺华 《Java程序设计》第6周学习总结</a><br>·  <a href="https://www.cnblogs.com/xll1025/p/6418615.html" target="_blank" onclick="clickRecomItmem(6418615,&#39;SNDMGZIC9A+itx5kGMGQpEj167XPswGmMierPPub0MR5uc2fu0+UAD1ujzA/RMMf8DJ7EKh1v+yzAEy7X/hzJG6ndvMNgvoO5XpKd4g3KXrk7mSvRIW7Pz8EdvDX9Nu38CBhjzDc8uGvrf3IkCw=&#39;)">Java IO最详解</a><br></div></div>
+<script async="async" src="./使用带缓冲的字符流读取字符文件。 - 云晴 - 博客园_files/gpt.js.下载"></script>
+<script>
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+</script>
+
+<script>
+  googletag.cmd.push(function() {
+    googletag.defineSlot('/1090369/C2', [468, 60], 'div-gpt-ad-1539008685004-0').addService(googletag.pubads());
+    googletag.pubads().enableSingleRequest();
+    googletag.enableServices();
+  });
+</script>
+<div id="cnblogs_c2" class="c_ad_block">
+    <div id="div-gpt-ad-1539008685004-0" style="height:60px; width:468px;" data-google-query-id="CIKjreD1zt4CFZYdvAodkEMAiQ">
+    <script>
+    if (new Date() >= new Date(2018, 9, 13)) {
+        googletag.cmd.push(function() { googletag.display('div-gpt-ad-1539008685004-0'); });
+    }
+    </script>
+    <div id="google_ads_iframe_/1090369/C2_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C2_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C2_0" width="468" height="60" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" style="border: 0px; vertical-align: bottom;" data-google-container-id="1" data-load-complete="true" src="./使用带缓冲的字符流读取字符文件。 - 云晴 - 博客园_files/saved_resource.html"></iframe></div></div>
+</div>
+<div id="under_post_kb"><div class="itnews c_ad_block"><b>最新新闻</b>：<br> ·  <a href="https://news.cnblogs.com/n/611981/" target="_blank">100万亿的电商帝国 在这里读懂中国</a><br> ·  <a href="https://news.cnblogs.com/n/611979/" target="_blank">剁手结束，快递背后的黑产狂欢才刚开始</a><br> ·  <a href="https://news.cnblogs.com/n/611977/" target="_blank">双11结尾 你熟知的几家手机厂商在战报里写了啥？</a><br> ·  <a href="https://news.cnblogs.com/n/611978/" target="_blank">降价后iPhone被疯抢，这能让库克反思些什么？</a><br> ·  <a href="https://news.cnblogs.com/n/611990/" target="_blank">买买买之后，苹果的土地储备已经超过大部分中国地产商</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"><b>历史上的今天:</b><br>2015-08-21 <a href="https://www.cnblogs.com/yunqing/p/4749253.html">二维数组输出10行杨辉三角</a><br>2015-08-21 <a href="https://www.cnblogs.com/yunqing/p/4749084.html">二维数组的练习----求和</a><br></div>
+<script type="text/javascript">
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();
+    deliverAdC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);   
+</script>
+</div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><div id="myTime">
+ <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0" width="180" height="80" id="honehoneclock" align="middle">
+ <param name="allowScriptAccess" value="always">
+ <param name="movie" value="http://chabudai.sakura.ne.jp/blogparts/honehoneclock/honehone_clock_wh.swf">
+ <param name="quality" value="high">
+ <param name="bgcolor" value="#ffffff">
+ <param name="wmode" value="transparent">
+ <embed wmode="transparent" src="http://chabudai.sakura.ne.jp/blogparts/honehoneclock/honehone_clock_wh.swf" quality="high" bgcolor="#ffffff" width="180" height="80" name="honehoneclock" align="middle" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer">
+ </object>
+ </div>
+
+<div>
+<object type="application/x-shockwave-flash" style="outline:none;" data="./使用带缓冲的字符流读取字符文件。 - 云晴 - 博客园_files/hamster.swf.下载" width="180" height="150">
+<param name="movie" value="http://cdn.abowman.com/widgets/hamster/hamster.swf?up_bodyColor=f0e9cc&amp;up_feetColor=D4C898&amp;up_eyeColor=000567&amp;up_wheelSpokeColor=DEDEDE&amp;up_wheelColor=FFFFFF&amp;up_waterColor=E0EFFF&amp;up_earColor=b0c4de&amp;up_wheelOuterColor=FF4D4D&amp;up_snoutColor=F7F4E9&amp;up_bgColor=F0E4E4&amp;up_foodColor=cba920&amp;up_wheelCenterColor=E4EB2E&amp;up_tailColor=E6DEBE&amp;">
+<param name="AllowScriptAccess" value="always">
+<param name="wmode" value="opaque">
+</object>
+</div>
+
+<embed border="0" marginwidth="0" marginheight="0" width="290" height="450" src="//music.163.com/outchain/player?type=0&amp;id=2333658349&amp;auto=1&amp;height=430">
+
+<script type="text/javascript">window['__document_write_ajax_callbacks__']['4']();</script><script type="text/javascript">window['__document_write_ajax_callbacks__']['5']();</script><script>window['__document_write_ajax_callbacks__']['1']();</script>
+<script type="text/javascript">window['__document_write_ajax_callbacks__']['6']();</script><script type="text/javascript">window['__document_write_ajax_callbacks__']['2']();</script><div id="profile_block">昵称：<a href="https://home.cnblogs.com/u/yunqing/">云晴</a><br>园龄：<a href="https://home.cnblogs.com/u/yunqing/" title="入园时间：2015-06-05">3年5个月</a><br>粉丝：<a href="https://home.cnblogs.com/u/yunqing/followers/">25</a><br>关注：<a href="https://home.cnblogs.com/u/yunqing/followees/">14</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow(&#39;46fe72a7-6c0b-e511-b908-9dcfd8948a71&#39;)">+加关注</a></div><script type="text/javascript">window['__document_write_ajax_callbacks__']['7']();</script><script>window['__document_write_ajax_callbacks__']['3']();</script></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="calendar"><div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2018/10/01&#39;);return false;">&lt;</a></td><td align="center">2018年11月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2018/12/01&#39;);return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" align="center" abbr="日" scope="col">日</th><th class="CalDayHeader" align="center" abbr="一" scope="col">一</th><th class="CalDayHeader" align="center" abbr="二" scope="col">二</th><th class="CalDayHeader" align="center" abbr="三" scope="col">三</th><th class="CalDayHeader" align="center" abbr="四" scope="col">四</th><th class="CalDayHeader" align="center" abbr="五" scope="col">五</th><th class="CalDayHeader" align="center" abbr="六" scope="col">六</th></tr><tr><td class="CalOtherMonthDay" align="center">28</td><td class="CalOtherMonthDay" align="center">29</td><td class="CalOtherMonthDay" align="center">30</td><td class="CalOtherMonthDay" align="center">31</td><td align="center">1</td><td align="center">2</td><td class="CalWeekendDay" align="center">3</td></tr><tr><td class="CalWeekendDay" align="center">4</td><td align="center">5</td><td align="center">6</td><td align="center">7</td><td align="center">8</td><td align="center">9</td><td class="CalWeekendDay" align="center">10</td></tr><tr><td class="CalWeekendDay" align="center">11</td><td class="CalTodayDay" align="center">12</td><td align="center">13</td><td align="center">14</td><td align="center">15</td><td align="center">16</td><td class="CalWeekendDay" align="center">17</td></tr><tr><td class="CalWeekendDay" align="center">18</td><td align="center">19</td><td align="center">20</td><td align="center">21</td><td align="center">22</td><td align="center">23</td><td class="CalWeekendDay" align="center">24</td></tr><tr><td class="CalWeekendDay" align="center">25</td><td align="center">26</td><td align="center">27</td><td align="center">28</td><td align="center">29</td><td align="center">30</td><td class="CalOtherMonthDay" align="center">1</td></tr><tr><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td><td class="CalOtherMonthDay" align="center">7</td><td class="CalOtherMonthDay" align="center">8</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script></div>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk"></div>
+<div id="widget_my_google" class="div_my_zzk"><input type="text" name="google_q" id="google_q" onkeydown="return google_go_enter(event)" class="input_my_zzk">&nbsp;<input onclick="google_go()" type="button" value="谷歌搜索" class="btn_my_zzk"></div>
+</div>
+</div>
+
+</div><div id="sidebar_shortcut" class="sidebar-block">
+<div class="catListLink">
+<h3 class="catListTitle">常用链接</h3>
+<ul>
+<li><a href="https://www.cnblogs.com/yunqing/p/" title="我的博客的随笔列表">我的随笔</a></li><li><a href="https://www.cnblogs.com/yunqing/MyComments.html" title="我发表过的评论列表">我的评论</a></li><li><a href="https://www.cnblogs.com/yunqing/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li><li><a href="https://www.cnblogs.com/yunqing/RecentComments.html" title="我的博客的评论列表">最新评论</a></li><li><a href="https://www.cnblogs.com/yunqing/tag/" title="我的博客的标签列表">我的标签</a></li>
+</ul>
+<div id="itemListLin_con" style="display:none;">
+<ul>
+
+</ul>
+</div>
+</div></div><div id="sidebar_toptags" class="sidebar-block">
+<div class="catListTag">
+<h3 class="catListTitle">我的标签</h3>
+<ul>
+<li><a href="https://www.cnblogs.com/yunqing/tag/ajax/">ajax</a>(1)</li><li><a href="https://www.cnblogs.com/yunqing/tag/jpa/">jpa</a>(1)</li><li><a href="https://www.cnblogs.com/yunqing/tag/springboot/">springboot</a>(1)</li>
+</ul>
+</div></div><div id="sidebar_categories">
+<div class="catListPostCategory">
+<h3 class="catListTitle">随笔分类</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_0_Link_0" href="https://www.cnblogs.com/yunqing/category/1130031.html">jsp(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_1" href="https://www.cnblogs.com/yunqing/category/1130035.html">Mybatis(13)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_2" href="https://www.cnblogs.com/yunqing/category/1130034.html">Mysql</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_3" href="https://www.cnblogs.com/yunqing/category/1130032.html">Servlet(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_4" href="https://www.cnblogs.com/yunqing/category/1130036.html">SpringMvc(1)</a> </li>
+
+</ul>
+
+</div>
+
+<div class="catListPostArchive">
+<h3 class="catListTitle">随笔档案</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_1_Link_0" href="https://www.cnblogs.com/yunqing/archive/2018/09.html">2018年9月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_1" href="https://www.cnblogs.com/yunqing/archive/2018/08.html">2018年8月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_2" href="https://www.cnblogs.com/yunqing/archive/2018/07.html">2018年7月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_3" href="https://www.cnblogs.com/yunqing/archive/2018/06.html">2018年6月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_4" href="https://www.cnblogs.com/yunqing/archive/2018/04.html">2018年4月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_5" href="https://www.cnblogs.com/yunqing/archive/2018/03.html">2018年3月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_6" href="https://www.cnblogs.com/yunqing/archive/2018/02.html">2018年2月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_7" href="https://www.cnblogs.com/yunqing/archive/2018/01.html">2018年1月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_8" href="https://www.cnblogs.com/yunqing/archive/2017/12.html">2017年12月 (11)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_9" href="https://www.cnblogs.com/yunqing/archive/2017/11.html">2017年11月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_10" href="https://www.cnblogs.com/yunqing/archive/2017/10.html">2017年10月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_11" href="https://www.cnblogs.com/yunqing/archive/2017/09.html">2017年9月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_12" href="https://www.cnblogs.com/yunqing/archive/2017/08.html">2017年8月 (7)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_13" href="https://www.cnblogs.com/yunqing/archive/2017/07.html">2017年7月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_14" href="https://www.cnblogs.com/yunqing/archive/2017/06.html">2017年6月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_15" href="https://www.cnblogs.com/yunqing/archive/2017/05.html">2017年5月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_16" href="https://www.cnblogs.com/yunqing/archive/2017/03.html">2017年3月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_17" href="https://www.cnblogs.com/yunqing/archive/2017/01.html">2017年1月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_18" href="https://www.cnblogs.com/yunqing/archive/2016/12.html">2016年12月 (10)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_19" href="https://www.cnblogs.com/yunqing/archive/2016/08.html">2016年8月 (9)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_20" href="https://www.cnblogs.com/yunqing/archive/2016/01.html">2016年1月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_21" href="https://www.cnblogs.com/yunqing/archive/2015/11.html">2015年11月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_22" href="https://www.cnblogs.com/yunqing/archive/2015/10.html">2015年10月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_23" href="https://www.cnblogs.com/yunqing/archive/2015/09.html">2015年9月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_24" href="https://www.cnblogs.com/yunqing/archive/2015/08.html">2015年8月 (31)</a> </li>
+
+</ul>
+
+</div>
+
+</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap">
+<div class="catListComment">
+<h3 class="catListTitle">最新评论</h3>
+	<div id="RecentCommentsBlock"><ul>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/yunqing/p/8624149.html#4112317">1. Re:springboot多数据源的配置与使用</a></li>
+        <li class="recent_comment_body">炫酷！</li>
+        <li class="recent_comment_author">--昨日的世界</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/yunqing/p/7825029.html#4078214">2. Re:springmvc需要掌握的面试知识</a></li>
+        <li class="recent_comment_body">好喜欢你的界面，到处都是小惊喜</li>
+        <li class="recent_comment_author">--好好想想</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/yunqing/p/6640805.html#4077699">3. Re:postman本地测试post接口</a></li>
+        <li class="recent_comment_body">想问背景+1</li>
+        <li class="recent_comment_author">--Ludyzhao</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/yunqing/p/4727440.html#3950713">4. Re:Java初学--无限循环</a></li>
+        <li class="recent_comment_body">网页好漂亮</li>
+        <li class="recent_comment_author">--不会飞的超人额</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/yunqing/p/6640805.html#3900545">5. Re:postman本地测试post接口</a></li>
+        <li class="recent_comment_body">你好，博主，你提供的postman现在不能下载了，可以发我邮箱里面一份吗？825675214@qq.com    谢谢</li>
+        <li class="recent_comment_author">--孙玉国</li>
+</ul>
+</div>
+</div>
+</div></div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="https://www.cnblogs.com/yunqing/p/6640805.html">1. postman本地测试post接口(10140)</a></li><li><a href="https://www.cnblogs.com/yunqing/p/6222397.html">2. SpringMVC整合Hibernate实现增删改查之按条件查询(8926)</a></li><li><a href="https://www.cnblogs.com/yunqing/p/7245619.html">3. Spring data JPA先排序再分页。(8721)</a></li><li><a href="https://www.cnblogs.com/yunqing/p/7825029.html">4. springmvc需要掌握的面试知识(8173)</a></li><li><a href="https://www.cnblogs.com/yunqing/p/6140229.html">5. JDBC增删改查，PreparedStatement和Statement的区别(3739)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="https://www.cnblogs.com/yunqing/p/6640805.html">1. postman本地测试post接口(3)</a></li><li><a href="https://www.cnblogs.com/yunqing/p/7825029.html">2. springmvc需要掌握的面试知识(2)</a></li><li><a href="https://www.cnblogs.com/yunqing/p/7245619.html">3. Spring data JPA先排序再分页。(1)</a></li><li><a href="https://www.cnblogs.com/yunqing/p/8624149.html">4. springboot多数据源的配置与使用(1)</a></li><li><a href="https://www.cnblogs.com/yunqing/p/4727440.html">5. Java初学--无限循环(1)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div id="TopDiggPostsBlock"><ul><li><a href="https://www.cnblogs.com/yunqing/p/6222397.html">1. SpringMVC整合Hibernate实现增删改查之按条件查询(2)</a></li><li><a href="https://www.cnblogs.com/yunqing/p/7825029.html">2. springmvc需要掌握的面试知识(1)</a></li></ul></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2018 云晴
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+<iframe id="google_osd_static_frame_8010915133731" name="google_osd_static_frame" style="display: none; width: 0px; height: 0px;" src="./使用带缓冲的字符流读取字符文件。 - 云晴 - 博客园_files/saved_resource(1).html"></iframe><canvas id="c_n24" width="1920" height="920" style="position: fixed; top: 0px; left: 0px; z-index: -1; opacity: 0.5;"></canvas><script type="text/javascript"> /* 鼠标特效 */ var a_idx = 0; jQuery(document).ready(function($) { $("body").click(function(e) { var a = new Array("富强", "民主", "文明", "和谐", "自由", "平等", "公正" ,"法治", "爱国", "敬业", "诚信", "友善"); var $i = $("<span></span>").text(a[a_idx]); a_idx = (a_idx + 1) % a.length; var x = e.pageX, y = e.pageY; $i.css({ "z-index": 999999999999999999999999999999999999999999999999999999999999999999999, "top": y - 20, "left": x, "position": "absolute", "font-weight": "bold", "color": "#ff6651" }); $("body").append($i); $i.animate({ "top": y - 180, "opacity": 0 }, 1500, function() { $i.remove(); }); }); }); </script><script type="text/javascript">getFollowStatus('46fe72a7-6c0b-e511-b908-9dcfd8948a71')</script><span style="top: 151.123px; left: 1185px; position: absolute; font-weight: bold; color: rgb(255, 102, 81); opacity: 0.819518;">文明</span></body></html>

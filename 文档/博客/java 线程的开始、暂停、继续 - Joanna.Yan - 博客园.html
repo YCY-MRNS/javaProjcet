@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<!-- saved from url=(0048)http://www.cnblogs.com/Joanna-Yan/p/5142348.html -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="origin">
+<title>java 线程的开始、暂停、继续 - Joanna.Yan - 博客园</title>
+<meta property="og:description" content="Android项目中的一个需求：通过线程读取文件内容，并且可以控制线程的开始、暂停、继续，来控制读文件。在此记录下。 直接在主线程中，通过wait、notify、notifyAll去控制读文件的线程（">
+<link type="text/css" rel="stylesheet" href="./java 线程的开始、暂停、继续 - Joanna.Yan - 博客园_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="./java 线程的开始、暂停、继续 - Joanna.Yan - 博客园_files/bundle-nature.css">
+<link type="text/css" rel="stylesheet" href="./java 线程的开始、暂停、继续 - Joanna.Yan - 博客园_files/223711.css">
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="./java 线程的开始、暂停、继续 - Joanna.Yan - 博客园_files/bundle-nature-mobile.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/Joanna-Yan/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/Joanna-Yan/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/Joanna-Yan/wlwmanifest.xml">
+<script src="./java 线程的开始、暂停、继续 - Joanna.Yan - 博客园_files/f.txt"></script><script src="./java 线程的开始、暂停、继续 - Joanna.Yan - 博客园_files/pubads_impl_rendering_280.js.下载"></script><script async="" src="./java 线程的开始、暂停、继续 - Joanna.Yan - 博客园_files/analytics.js.下载"></script><script type="text/javascript" src="./java 线程的开始、暂停、继续 - Joanna.Yan - 博客园_files/encoder.js.下载"></script><script src="./java 线程的开始、暂停、继续 - Joanna.Yan - 博客园_files/jquery-2.2.0.min.js.下载"></script>
+<script type="text/javascript">var currentBlogApp = 'Joanna-Yan', cb_enable_mathjax=false;var isLogined=false;</script>
+<script src="./java 线程的开始、暂停、继续 - Joanna.Yan - 博客园_files/blog-common.js.下载" type="text/javascript"></script>
+<link rel="preload" href="./java 线程的开始、暂停、继续 - Joanna.Yan - 博客园_files/f(1).txt" as="script"><script type="text/javascript" src="./java 线程的开始、暂停、继续 - Joanna.Yan - 博客园_files/f(1).txt"></script><script src="./java 线程的开始、暂停、继续 - Joanna.Yan - 博客园_files/pubads_impl_280.js.下载" async=""></script><link rel="prefetch" href="http://tpc.googlesyndication.com/safeframe/1-0-31/html/container.html"></head>
+<body>
+<a name="top"></a>
+
+<!--done-->
+<div id="banner"><div id="bnr_pic">
+<!--done-->
+<div class="header">
+	<div class="headerText">
+		<a id="Header1_HeaderTitle" class="headermaintitle" href="https://www.cnblogs.com/Joanna-Yan/">Joanna.Yan</a><br>
+	</div><br>
+	<div class="headerDis">调息，调身，调心。</div>
+</div>
+</div></div>
+<div id="main">
+	<!-- left starts -->
+	<div id="left">
+		<div id="mystats">
+			<br>
+				<div id="blog_stats">
+<!--done-->
+<div class="blogStats">
+随笔 - 127&nbsp;
+文章 - 0&nbsp;
+评论 - 177&nbsp;
+
+</div></div>
+			
+		</div>
+		<div id="mylinks">
+<!--done-->
+<a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">博客园</a>&nbsp;&nbsp;<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/Joanna-Yan/">首页</a>&nbsp;&nbsp;<a id="blog_nav_newpost" class="menu" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a>&nbsp;&nbsp;<a id="blog_nav_contact" accesskey="9" class="menu" rel="nofollow" href="https://msg.cnblogs.com/send/Joanna.Yan">联系</a>&nbsp;&nbsp;<a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a>&nbsp;&nbsp;<a id="blog_nav_rss" class="menu" href="https://www.cnblogs.com/Joanna-Yan/rss">订阅</a>&nbsp;<a id="blog_nav_rss_image" href="https://www.cnblogs.com/Joanna-Yan/rss"><img src="./java 线程的开始、暂停、继续 - Joanna.Yan - 博客园_files/xml.gif" alt="订阅"></a></div>
+		<div id="topics">
+			
+<div id="post_detail">
+<div class="post">
+	<div class="postTitle">
+		<h1><a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/Joanna-Yan/p/5142348.html">java 线程的开始、暂停、继续</a></h1>
+	</div>
+	<div id="cnblogs_post_body" class="blogpost-body"><p>　　Android项目中的一个需求：通过线程读取文件内容，并且可以控制线程的开始、暂停、继续，来控制读文件。在此记录下。</p>
+<p>　　直接在主线程中，通过wait、notify、notifyAll去控制读文件的线程（子线程），报错：java.lang.IllegalMonitorStateException。</p>
+<p>　　需要注意的几个问题：</p>
+<p>　　　　1.任何一个时刻，对象的控制权（monitor）只能被一个线程拥有。</p>
+<p>　　　　2.无论是执行对象的wait、notify还是notifyAll方法，必须保证当前运行的线程取得了该对象的控制权（monitor）。</p>
+<p>　　　　3.如果在没有控制权的线程里执行对象的以上三种方法，就会报错java.lang.IllegalMonitorStateException。</p>
+<p>　　　　4.JVM基于多线程，默认情况下不能保证运行时线程的时序性。</p>
+<p>　　线程取得控制权的3种方法：</p>
+<p>　　　　1.执行对象的某个同步实例方法。</p>
+<p>　　　　2.执行对象对应类的同步静态方法。</p>
+<p>　　　　3.执行对该对象加同步锁的同步块。</p>
+<p>　　这里将开始、暂停、继续封装在线程类中，直接调用该实例的方法就行。</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./java 线程的开始、暂停、继续 - Joanna.Yan - 博客园_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #0000ff;">public</span> <span style="color: #0000ff;">class</span> ReadThread <span style="color: #0000ff;">implements</span><span style="color: #000000;"> Runnable{
+        </span><span style="color: #0000ff;">public</span><span style="color: #000000;"> Thread t;
+        </span><span style="color: #0000ff;">private</span><span style="color: #000000;"> String threadName;
+        </span><span style="color: #0000ff;">boolean</span> suspended=<span style="color: #0000ff;">false</span><span style="color: #000000;">;
+        
+        </span><span style="color: #0000ff;">public</span><span style="color: #000000;"> ReadThread(String threadName){
+            </span><span style="color: #0000ff;">this</span>.threadName=<span style="color: #000000;">threadName;
+            System.out.println(</span>"Creating " +<span style="color: #000000;">  threadName );
+        }
+
+        </span><span style="color: #0000ff;">public</span> <span style="color: #0000ff;">void</span><span style="color: #000000;"> run() {
+          </span><span style="color: #0000ff;">for</span>(<span style="color: #0000ff;">int</span> i = 10; i &gt; 0; i--<span style="color: #000000;">) {
+            System.out.println(</span>"Thread: " + threadName + ", " +<span style="color: #000000;"> i);
+            </span><span style="color: #008000;">//</span><span style="color: #008000;"> Let the thread sleep for a while.</span>
+            <span style="color: #0000ff;">try</span><span style="color: #000000;"> {
+                Thread.sleep(</span>300<span style="color: #000000;">);
+                </span><span style="color: #0000ff;">synchronized</span>(<span style="color: #0000ff;">this</span><span style="color: #000000;">) {
+                    </span><span style="color: #0000ff;">while</span><span style="color: #000000;">(suspended) {
+                       wait();
+                    }
+                }
+            } </span><span style="color: #0000ff;">catch</span><span style="color: #000000;"> (InterruptedException e) {
+                System.out.println(</span>"Thread " +  threadName + " interrupted."<span style="color: #000000;">);
+                e.printStackTrace();
+            }
+            System.out.println(</span>"Thread " +  threadName + " exiting."<span style="color: #000000;">);
+          }
+        }
+        
+        </span><span style="color: #008000;">/**</span><span style="color: #008000;">
+         * 开始
+         </span><span style="color: #008000;">*/</span>
+        <span style="color: #0000ff;">public</span> <span style="color: #0000ff;">void</span><span style="color: #000000;"> start(){
+            System.out.println(</span>"Starting " +<span style="color: #000000;">  threadName );
+            </span><span style="color: #0000ff;">if</span>(t==<span style="color: #0000ff;">null</span><span style="color: #000000;">){
+                t</span>=<span style="color: #0000ff;">new</span> Thread(<span style="color: #0000ff;">this</span><span style="color: #000000;">, threadName);
+                t.start();
+            }
+        }
+        
+        </span><span style="color: #008000;">/**</span><span style="color: #008000;">
+         * 暂停
+         </span><span style="color: #008000;">*/</span>
+         <span style="color: #0000ff;">void</span><span style="color: #000000;"> suspend(){
+            suspended </span>= <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+        }
+         
+         </span><span style="color: #008000;">/**</span><span style="color: #008000;">
+          * 继续
+          </span><span style="color: #008000;">*/</span>
+         <span style="color: #0000ff;">synchronized</span> <span style="color: #0000ff;">void</span><span style="color: #000000;"> resume(){
+             suspended </span>= <span style="color: #0000ff;">false</span><span style="color: #000000;">;
+             notify();
+         }
+    }</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./java 线程的开始、暂停、继续 - Joanna.Yan - 博客园_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>&nbsp;</p>
+<p>如果此文对您有帮助，微信打赏我一下吧~</p>
+<p><img src="./java 线程的开始、暂停、继续 - Joanna.Yan - 博客园_files/746143-20170315102010448-2095416403.jpg" alt="" width="169" height="248"></p></div><div id="MySignature" style="display: block;"><div>
+		<div style="float: left; margin-right: 10px"><img src="./java 线程的开始、暂停、继续 - Joanna.Yan - 博客园_files/746143-20151204162425627-194019176.png" alt=""></div>
+		<div>
+		<p>
+			作者：<a href="http://www.cnblogs.com/Joanna-Yan/" target="_blank">Joanna.Yan</a><br>
+			出处：<a href="http://www.cnblogs.com/Joanna-Yan/" target="_blank">http://www.cnblogs.com/Joanna-Yan/</a><br>
+			本文版权归作者所有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文链接，否则保留追究法律责任的权利。
+		</p>	 
+	　　</div>
+	</div>
+</div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="https://www.cnblogs.com/Joanna-Yan/category/690587.html" target="_blank">java</a></div>
+<div id="EntryTag">标签: <a href="https://www.cnblogs.com/Joanna-Yan/tag/java/">java</a>, <a href="https://www.cnblogs.com/Joanna-Yan/tag/%E7%BA%BF%E7%A8%8B/">线程</a></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(5142348,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow(&#39;de32c5ea-cae4-e411-b908-9dcfd8948a71&#39;);" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./java 线程的开始、暂停、继续 - Joanna.Yan - 博客园_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="./java 线程的开始、暂停、继续 - Joanna.Yan - 博客园_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/Joanna-Yan/" target="_blank"><img src="./java 线程的开始、暂停、继续 - Joanna.Yan - 博客园_files/20180409170109.png" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/Joanna-Yan/">Joanna.Yan</a><br>
+            <a href="http://home.cnblogs.com/u/Joanna-Yan/followees">关注 - 10</a><br>
+            <a href="http://home.cnblogs.com/u/Joanna-Yan/followers">粉丝 - 435</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow(&#39;de32c5ea-cae4-e411-b908-9dcfd8948a71&#39;);return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(5142348,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(5142348,&#39;Bury&#39;)">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="https://www.cnblogs.com/Joanna-Yan/p/5080935.html" class="p_n_p_prefix">« </a> 上一篇：<a href="https://www.cnblogs.com/Joanna-Yan/p/5080935.html" title="发布于2016-01-02 15:05">如何获取byte的各个bit值以及常见位操作</a><br><a href="https://www.cnblogs.com/Joanna-Yan/p/5168516.html" class="p_n_p_prefix">» </a> 下一篇：<a href="https://www.cnblogs.com/Joanna-Yan/p/5168516.html" title="发布于2016-01-29 11:46">Android百度地图 关于visibility="gone"的奇葩问题</a><br></div>
+</div>
+
+
+	<div class="postDesc">posted on <span id="post-date">2016-01-19 15:23</span> <a href="https://www.cnblogs.com/Joanna-Yan/">Joanna.Yan</a> 阅读(<span id="post_view_count">17561</span>) 评论(<span id="post_comment_count">0</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=5142348" rel="nofollow">编辑</a> <a href="http://www.cnblogs.com/Joanna-Yan/p/5142348.html#" onclick="AddToWz(5142348);return false;">收藏</a></div>
+</div>
+<script type="text/javascript">var allowComments=true,cb_blogId=223711,cb_entryId=5142348,cb_blogApp=currentBlogApp,cb_blogUserGuid='de32c5ea-cae4-e411-b908-9dcfd8948a71',cb_entryCreatedDate='2016/1/19 15:23:00';loadViewCount(cb_entryId);var cb_postType=1;</script>
+
+</div><a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="http://www.cnblogs.com/Joanna-Yan/p/5142348.html#" onclick="return RefreshPage();">刷新页面</a><a href="http://www.cnblogs.com/Joanna-Yan/p/5142348.html#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login(&#39;commentform&#39;);">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank">【推荐】超50万VC++源码: 大型组态工控、电力仿真CAD与GIS源码库！</a><br><a href="http://clickc.admaster.com.cn/c/a113612,b3081535,c1705,i0,m101,8a1,8b3,h" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-EH&#39;)">【活动】华为云12.12会员节全场1折起 满额送Mate20</a><br><a href="http://clickc.admaster.com.cn/c/a116493,b2949399,c1705,i0,m101,8a1,8b3,h" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-会员节&#39;)">【活动】华为云会员节云服务特惠1折起</a><br><a href="https://cloud.tencent.com/developer/conf/2018-beijing?fromSource=gwzcw.1768694.1768694.1768694" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-腾讯云&#39;)">【活动】腾讯云+社区开发者大会12月15日首都北京盛大起航！</a><br></div>
+<div id="opt_under_post"></div>
+<div id="cnblogs_c1" class="c_ad_block"><a href="https://cloud.tencent.com/act/special/amd?fromSource=gwzcw.1351353.1351353.1351353" target="_blank"><img width="300" height="250" src="./java 线程的开始、暂停、继续 - Joanna.Yan - 博客园_files/24442-20181129113406214-695115565.jpg" alt="腾讯云1129" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;C1&#39;);"></a></div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>相关博文：</b><br>·  <a href="https://www.cnblogs.com/scy251147/p/3363667.html" target="_blank" onclick="clickRecomItmem(3363667,&#39;GdXEWhQnFojNjf3knsp8das3C1Xc8+FsEMqCwnaCJioewqwFaAIaT8N0Fj7YOeJ/F4XyeM72eBqZb3LTxDpVT5dMbjRxiCUb2raSyaQjOSye3Mzsx2bENJPjolmQjOe94z6hpXqnCOQ36yY6VNwm&#39;)">线程暂停与继续</a><br>·  <a href="https://www.cnblogs.com/blue123/p/5715295.html" target="_blank" onclick="clickRecomItmem(5715295,&#39;yNkLXU9m+iLKqrriSnwFeCp0a0GUPGaEc1VISKnsSP3v2ADddvkwxA7ztsGUHw/Bxb4YLf2F0U+epMfu11O6zmTN5gZVZcKeMFY8+x/5svljnT+7edzCg0vvA/4nNWuVdDa7EPNn/HeTy2nZL8RZ&#39;)">定时器setInterval 开始、暂停、继续！</a><br>·  <a href="https://www.cnblogs.com/softidea/p/4162724.html" target="_blank" onclick="clickRecomItmem(4162724,&#39;u5jw/oHNCcfui+IJJx+DKzkDC48xD1Xj8bRZSUGUiEc5KVBh1hnYbfK2x2eBvdfjWVzI3EdrZWs+94tHoyw0O4A5PErATvVB+1hKg6DUE6Xx85/xhS/5pYGWqEUQ1ZmTyQlhFqti35JIlwkWMuI=&#39;)">java之Thread.sleep(long)与object.wait()/object.wait(long)的区别及相关概念梳理（good）</a><br>·  <a href="https://www.cnblogs.com/choumin/p/5128715.html" target="_blank" onclick="clickRecomItmem(5128715,&#39;1flm2VvzhpUI6BjNtLtSriuxfrVXG4pyk1vyarX7H3PDIeOqFSoZKJJZXM+bT0Wc4eK6ecVjHG/KHrBMGGYU2v6YvEoq4mVKJKucmYM693XxnqdndDpIJaJwXZWn+8wVWBjQn72RTyHWlRptgFt2&#39;)">在java的GUI中暂停、继续其他线程的方法</a><br>·  <a href="https://www.cnblogs.com/sharpxiajun/archive/2011/12/21/2295677.html" target="_blank" onclick="clickRecomItmem(2295677,&#39;/mnPBcx4tiQ3MQdICBUP/UU4ZotTvxB+8ODTeJXKtCm5aLbLo0yCIhBFXuBktHyEowOp3K0bcX6e2DH9ceVl5u/LbJ2XoleeqwQaBbn346aTAf0x+ZzG2jegQheMuwif4TV2v3kVMmwjW+UJRj8=&#39;)">java笔记：熟练掌握线程技术---基础篇之线程的协作和死锁的问题（下）</a><br></div></div>
+<script async="async" src="./java 线程的开始、暂停、继续 - Joanna.Yan - 博客园_files/gpt.js.下载"></script>
+<script>
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+</script>
+
+<script>
+  googletag.cmd.push(function() {
+    googletag.defineSlot('/1090369/C2', [468, 60], 'div-gpt-ad-1539008685004-0').addService(googletag.pubads());
+    googletag.pubads().enableSingleRequest();
+    googletag.enableServices();
+  });
+</script>
+<div id="cnblogs_c2" class="c_ad_block">
+    <div id="div-gpt-ad-1539008685004-0" style="height:60px; width:468px;" data-google-query-id="CJ71-_OBk98CFYQZKgodTIAL4g">
+    <script>
+    if (new Date() >= new Date(2018, 9, 13)) {
+        googletag.cmd.push(function() { googletag.display('div-gpt-ad-1539008685004-0'); });
+    }
+    </script>
+    <div id="google_ads_iframe_/1090369/C2_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C2_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C2_0" width="468" height="60" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" style="border: 0px; vertical-align: bottom;" data-google-container-id="1" data-load-complete="true" src="./java 线程的开始、暂停、继续 - Joanna.Yan - 博客园_files/saved_resource.html"></iframe></div></div>
+</div>
+<div id="under_post_kb"><div class="itnews c_ad_block"><b>最新新闻</b>：<br> ·  <a href="https://news.cnblogs.com/n/614433/" target="_blank">微软拥抱Chrome是它献给Windows用户最好的礼物</a><br> ·  <a href="https://news.cnblogs.com/n/614432/" target="_blank">比尔·盖茨：这个以悲剧收场的惊险故事令我爱不释手</a><br> ·  <a href="https://news.cnblogs.com/n/614431/" target="_blank">Mozilla Firefox包含一个存在了11年的“验证对话框”隐患</a><br> ·  <a href="https://news.cnblogs.com/n/614430/" target="_blank">苹果收购创业公司Platoon：帮助更多艺人成名</a><br> ·  <a href="https://news.cnblogs.com/n/614429/" target="_blank">ofo印度被收购，另一场“中国式”共享单车混战正在上演</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();
+    deliverAdC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);   
+</script>
+</div>
+
+
+		</div>
+	</div>
+	<!-- left ends -->
+	<!-- right starts -->
+	<div id="right">
+		<!-- 右侧工具部分 -->
+		<div id="right_content">
+	
+			
+<!--done-->
+<h2 class="listtitle">公告</h2>
+<div class="newsItem">
+	<div id="blog-news"><img src="./java 线程的开始、暂停、继续 - Joanna.Yan - 博客园_files/20170804174241.png" alt="">
+<h6>作为工作和学习中的总结和笔记之用。</h6>
+<hr>
+<p>部分朋友打赏后想加微信问问题的，打赏时可留联系方式，或后台短消息留联系方式。</p>
+<img src="./java 线程的开始、暂停、继续 - Joanna.Yan - 博客园_files/20180409165746.png" alt="">
+<hr><div id="profile_block">昵称：<a href="https://home.cnblogs.com/u/Joanna-Yan/">Joanna.Yan</a><br>园龄：<a href="https://home.cnblogs.com/u/Joanna-Yan/" title="入园时间：2015-04-17">3年7个月</a><br>粉丝：<a href="https://home.cnblogs.com/u/Joanna-Yan/followers/">435</a><br>关注：<a href="https://home.cnblogs.com/u/Joanna-Yan/followees/">10</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow(&#39;de32c5ea-cae4-e411-b908-9dcfd8948a71&#39;)">+加关注</a></div><script>getFollowStatus('de32c5ea-cae4-e411-b908-9dcfd8948a71')</script></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+	
+			<div id="calendar"><div id="blog-calendar" style="display:none"></div><script type="text/javascript">loadBlogDefaultCalendar();</script></div>
+			
+				<div id="leftcontentcontainer">
+					<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk"></div>
+<div id="widget_my_google" class="div_my_zzk"><input type="text" name="google_q" id="google_q" onkeydown="return google_go_enter(event)" class="input_my_zzk">&nbsp;<input onclick="google_go()" type="button" value="谷歌搜索" class="btn_my_zzk"></div>
+</div>
+</div>
+
+</div><div id="sidebar_categories">
+<!--done-->
+
+		<h1 class="catListTitle">随笔分类</h1>
+		
+				<ul>
+			
+				<li class="catList">
+				 <a id="CatList_LinkList_0_Link_0" class="listitem" href="https://www.cnblogs.com/Joanna-Yan/category/690584.html">android(27)</a>
+				</li>
+			
+				<li class="catList">
+				 <a id="CatList_LinkList_0_Link_1" class="listitem" href="https://www.cnblogs.com/Joanna-Yan/category/740147.html">HTML5移动Web开发(11)</a>
+				</li>
+			
+				<li class="catList">
+				 <a id="CatList_LinkList_0_Link_2" class="listitem" href="https://www.cnblogs.com/Joanna-Yan/category/1065592.html">IO/BIO/伪异步IO/NIO/AIO(6)</a>
+				</li>
+			
+				<li class="catList">
+				 <a id="CatList_LinkList_0_Link_3" class="listitem" href="https://www.cnblogs.com/Joanna-Yan/category/690587.html">java(31)</a>
+				</li>
+			
+				<li class="catList">
+				 <a id="CatList_LinkList_0_Link_4" class="listitem" href="https://www.cnblogs.com/Joanna-Yan/category/1121489.html">Linux</a>
+				</li>
+			
+				<li class="catList">
+				 <a id="CatList_LinkList_0_Link_5" class="listitem" href="https://www.cnblogs.com/Joanna-Yan/category/722804.html">mAppWidget手绘地图(16)</a>
+				</li>
+			
+				<li class="catList">
+				 <a id="CatList_LinkList_0_Link_6" class="listitem" href="https://www.cnblogs.com/Joanna-Yan/category/1044986.html">Maven</a>
+				</li>
+			
+				<li class="catList">
+				 <a id="CatList_LinkList_0_Link_7" class="listitem" href="https://www.cnblogs.com/Joanna-Yan/category/1297515.html">mongoDB</a>
+				</li>
+			
+				<li class="catList">
+				 <a id="CatList_LinkList_0_Link_8" class="listitem" href="https://www.cnblogs.com/Joanna-Yan/category/1044853.html">MyBatis(13)</a>
+				</li>
+			
+				<li class="catList">
+				 <a id="CatList_LinkList_0_Link_9" class="listitem" href="https://www.cnblogs.com/Joanna-Yan/category/1050505.html">Netty(3)</a>
+				</li>
+			
+				<li class="catList">
+				 <a id="CatList_LinkList_0_Link_10" class="listitem" href="https://www.cnblogs.com/Joanna-Yan/category/1194566.html">Nginx(1)</a>
+				</li>
+			
+				<li class="catList">
+				 <a id="CatList_LinkList_0_Link_11" class="listitem" href="https://www.cnblogs.com/Joanna-Yan/category/818214.html">office文档操作(2)</a>
+				</li>
+			
+				<li class="catList">
+				 <a id="CatList_LinkList_0_Link_12" class="listitem" href="https://www.cnblogs.com/Joanna-Yan/category/882485.html">OpenGL与3D</a>
+				</li>
+			
+				<li class="catList">
+				 <a id="CatList_LinkList_0_Link_13" class="listitem" href="https://www.cnblogs.com/Joanna-Yan/category/793722.html">open-source framework(3)</a>
+				</li>
+			
+				<li class="catList">
+				 <a id="CatList_LinkList_0_Link_14" class="listitem" href="https://www.cnblogs.com/Joanna-Yan/category/1050502.html">Quartz</a>
+				</li>
+			
+				<li class="catList">
+				 <a id="CatList_LinkList_0_Link_15" class="listitem" href="https://www.cnblogs.com/Joanna-Yan/category/1124377.html">RabbitMQ</a>
+				</li>
+			
+				<li class="catList">
+				 <a id="CatList_LinkList_0_Link_16" class="listitem" href="https://www.cnblogs.com/Joanna-Yan/category/1074685.html">Redis</a>
+				</li>
+			
+				<li class="catList">
+				 <a id="CatList_LinkList_0_Link_17" class="listitem" href="https://www.cnblogs.com/Joanna-Yan/category/1044925.html">RESTful(1)</a>
+				</li>
+			
+				<li class="catList">
+				 <a id="CatList_LinkList_0_Link_18" class="listitem" href="https://www.cnblogs.com/Joanna-Yan/category/1145141.html">Shiro</a>
+				</li>
+			
+				<li class="catList">
+				 <a id="CatList_LinkList_0_Link_19" class="listitem" href="https://www.cnblogs.com/Joanna-Yan/category/1112812.html">solr</a>
+				</li>
+			
+				<li class="catList">
+				 <a id="CatList_LinkList_0_Link_20" class="listitem" href="https://www.cnblogs.com/Joanna-Yan/category/1018693.html">SpringMVC框架(8)</a>
+				</li>
+			
+				<li class="catList">
+				 <a id="CatList_LinkList_0_Link_21" class="listitem" href="https://www.cnblogs.com/Joanna-Yan/category/762743.html">SSH框架(4)</a>
+				</li>
+			
+				<li class="catList">
+				 <a id="CatList_LinkList_0_Link_22" class="listitem" href="https://www.cnblogs.com/Joanna-Yan/category/996020.html">SSM框架(18)</a>
+				</li>
+			
+				<li class="catList">
+				 <a id="CatList_LinkList_0_Link_23" class="listitem" href="https://www.cnblogs.com/Joanna-Yan/category/743636.html">Tomcat(4)</a>
+				</li>
+			
+				<li class="catList">
+				 <a id="CatList_LinkList_0_Link_24" class="listitem" href="https://www.cnblogs.com/Joanna-Yan/category/1049149.html">WebSocket(1)</a>
+				</li>
+			
+				<li class="catList">
+				 <a id="CatList_LinkList_0_Link_25" class="listitem" href="https://www.cnblogs.com/Joanna-Yan/category/745025.html">地图(6)</a>
+				</li>
+			
+				<li class="catList">
+				 <a id="CatList_LinkList_0_Link_26" class="listitem" href="https://www.cnblogs.com/Joanna-Yan/category/818073.html">二维码(1)</a>
+				</li>
+			
+				<li class="catList">
+				 <a id="CatList_LinkList_0_Link_27" class="listitem" href="https://www.cnblogs.com/Joanna-Yan/category/752429.html">蓝牙/OTG/串口通信</a>
+				</li>
+			
+				<li class="catList">
+				 <a id="CatList_LinkList_0_Link_28" class="listitem" href="https://www.cnblogs.com/Joanna-Yan/category/987449.html">爬虫(1)</a>
+				</li>
+			
+				<li class="catList">
+				 <a id="CatList_LinkList_0_Link_29" class="listitem" href="https://www.cnblogs.com/Joanna-Yan/category/773862.html">排序与算法(1)</a>
+				</li>
+			
+				<li class="catList">
+				 <a id="CatList_LinkList_0_Link_30" class="listitem" href="https://www.cnblogs.com/Joanna-Yan/category/736630.html">前端(10)</a>
+				</li>
+			
+				<li class="catList">
+				 <a id="CatList_LinkList_0_Link_31" class="listitem" href="https://www.cnblogs.com/Joanna-Yan/category/819541.html">软件安全(1)</a>
+				</li>
+			
+				<li class="catList">
+				 <a id="CatList_LinkList_0_Link_32" class="listitem" href="https://www.cnblogs.com/Joanna-Yan/category/703395.html">设计模式(2)</a>
+				</li>
+			
+				<li class="catList">
+				 <a id="CatList_LinkList_0_Link_33" class="listitem" href="https://www.cnblogs.com/Joanna-Yan/category/744026.html">数据库(3)</a>
+				</li>
+			
+				<li class="catList">
+				 <a id="CatList_LinkList_0_Link_34" class="listitem" href="https://www.cnblogs.com/Joanna-Yan/category/762123.html">位操作(1)</a>
+				</li>
+			
+				<li class="catList">
+				 <a id="CatList_LinkList_0_Link_35" class="listitem" href="https://www.cnblogs.com/Joanna-Yan/category/1027980.html">支付</a>
+				</li>
+			
+				</ul>
+			
+	
+</div><div id="sidebar_scorerank" class="sidebar-block">
+<h3>积分与排名</h3>
+<ul>
+	<li>
+		积分 -
+		197662
+	</li><li>
+		排名 -
+		1530
+	</li>
+</ul>
+</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap">
+<h3 class="catListTitle">最新评论</h3>
+<div class="RecentComment" id="RecentComments">
+	<div id="RecentCommentsBlock"><ul>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/Joanna-Yan/p/9896180.html#4106851">1. Re:高德地图大批量数据（上万）画历史轨迹实现方案</a></li>
+        <li class="recent_comment_body">学习了  以后可能会用到。</li>
+        <li class="recent_comment_author">--yycisheng</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/Joanna-Yan/p/9896180.html#4106029">2. Re:高德地图大批量数据（上万）画历史轨迹实现方案</a></li>
+        <li class="recent_comment_body">性能不错</li>
+        <li class="recent_comment_author">--relax</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/Joanna-Yan/p/5822231.html#4099118">3. Re:最全面的百度地图JavaScript离线版开发</a></li>
+        <li class="recent_comment_body">离线地图是怎么产生坐标的？</li>
+        <li class="recent_comment_author">--_York</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/Joanna-Yan/p/6923464.html#4026974">4. Re:Spring+SpringMVC+MyBatis深入学习及搭建(六)——MyBatis关联查询</a></li>
+        <li class="recent_comment_body">最后的例子，似乎不是多对多查询。多对多，比如一个用户对应多个角色，而一个角色又对应多个用户。</li>
+        <li class="recent_comment_author">--救赎者</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/Joanna-Yan/p/5822231.html#4024022">5. Re:最全面的百度地图JavaScript离线版开发</a></li>
+        <li class="recent_comment_body">正要做离线地图上的规划问题，求发个demo可以吗？2821802301@qq.com，谢谢</li>
+        <li class="recent_comment_author">--thinkingbear</li>
+</ul>
+</div>
+</div>
+</div></div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<h3 class="catListTitle">阅读排行榜</h3>
+<div class="RecentComment" id="TopViewPosts"> 
+	<div id="TopViewPostsBlock"><ul><li><a href="https://www.cnblogs.com/Joanna-Yan/p/5280272.html">1. Java多种方式动态生成doc文档(39895)</a></li><li><a href="https://www.cnblogs.com/Joanna-Yan/p/5056780.html">2. Java服务器对外提供接口以及Android端向服务器请求数据(26346)</a></li><li><a href="https://www.cnblogs.com/Joanna-Yan/p/5822231.html">3. 最全面的百度地图JavaScript离线版开发(24490)</a></li><li><a href="https://www.cnblogs.com/Joanna-Yan/p/6241354.html">4. Android 几种消息推送方案总结(23926)</a></li><li><a href="https://www.cnblogs.com/Joanna-Yan/p/5142348.html">5. java 线程的开始、暂停、继续(17561)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div class="RecentComment">
+	<div id="TopDiggPostsBlock"><ul><li><a href="https://www.cnblogs.com/Joanna-Yan/p/5822231.html">1. 最全面的百度地图JavaScript离线版开发(21)</a></li><li><a href="https://www.cnblogs.com/Joanna-Yan/p/8745794.html">2. Nginx+Tomcat高性能负载均衡集群搭建(11)</a></li><li><a href="https://www.cnblogs.com/Joanna-Yan/p/5056780.html">3. Java服务器对外提供接口以及Android端向服务器请求数据(8)</a></li><li><a href="https://www.cnblogs.com/Joanna-Yan/p/7814644.html">4. Netty（二）——TCP粘包/拆包(7)</a></li><li><a href="https://www.cnblogs.com/Joanna-Yan/p/7085268.html">5. Spring+SpringMVC+MyBatis深入学习及搭建(十六)——SpringMVC注解开发（高级篇）(7)</a></li></ul></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script>
+				</div>
+			
+		</div>
+		<!-- //右侧工具部分 -->
+		<div id="footer">
+			
+<!--done-->
+Copyright ©2018 Joanna.Yan
+		</div>
+	</div>
+	<!-- right ends -->
+	<div class="clear"></div>
+	
+</div>
+
+
+
+<iframe id="google_osd_static_frame_2267250365745" name="google_osd_static_frame" style="display: none; width: 0px; height: 0px;" src="./java 线程的开始、暂停、继续 - Joanna.Yan - 博客园_files/saved_resource(1).html"></iframe></body></html>

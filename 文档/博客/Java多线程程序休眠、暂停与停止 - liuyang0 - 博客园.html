@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<!-- saved from url=(0047)https://www.cnblogs.com/liuyang0/p/6386850.html -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="origin">
+<title>Java多线程程序休眠、暂停与停止 - liuyang0 - 博客园</title>
+<meta property="og:description" content="休眠 &amp; 8195;&amp; 8195;在Java多线程中，可以使用sleep()方法在指定毫秒数内让当前正在执行的线程休眠。 &amp; 8195;&amp; 8195;下面这段代码，使得主函数的main线程休眠了200">
+<link type="text/css" rel="stylesheet" href="./Java多线程程序休眠、暂停与停止 - liuyang0 - 博客园_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="./Java多线程程序休眠、暂停与停止 - liuyang0 - 博客园_files/bundle-AnotherEon001.css">
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="./Java多线程程序休眠、暂停与停止 - liuyang0 - 博客园_files/bundle-AnotherEon001-mobile.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/liuyang0/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/liuyang0/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/liuyang0/wlwmanifest.xml">
+<script src="./Java多线程程序休眠、暂停与停止 - liuyang0 - 博客园_files/f.txt"></script><script src="./Java多线程程序休眠、暂停与停止 - liuyang0 - 博客园_files/amp4ads-host-v0.js.下载"></script><script src="./Java多线程程序休眠、暂停与停止 - liuyang0 - 博客园_files/pubads_impl_rendering_278.js.下载"></script><script async="" src="./Java多线程程序休眠、暂停与停止 - liuyang0 - 博客园_files/analytics.js.下载"></script><script src="./Java多线程程序休眠、暂停与停止 - liuyang0 - 博客园_files/jquery-2.2.0.min.js.下载"></script>
+<script type="text/javascript">var currentBlogApp = 'liuyang0', cb_enable_mathjax=true;var isLogined=false;</script>
+<script type="text/x-mathjax-config;executed=true">
+    MathJax.Hub.Config({
+        tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processClass: 'math', processEscapes: true },
+        TeX: { 
+            equationNumbers: { autoNumber: ['AMS'], useLabelIds: true }, extensions: ['extpfeil.js'] 
+        },
+        'HTML-CSS': { linebreaks: { automatic: true } },
+        SVG: { linebreaks: { automatic: true } }
+        });
+    </script><script src="./Java多线程程序休眠、暂停与停止 - liuyang0 - 博客园_files/MathJax.js.下载"></script>
+<script src="./Java多线程程序休眠、暂停与停止 - liuyang0 - 博客园_files/blog-common.js.下载" type="text/javascript"></script>
+<style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
+.MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block; background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0; padding: 4px}
+.MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_Hover_Arrow:hover span {background-color: #CCC!important}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">.MathJax_Preview .MJXf-math {color: inherit!important}
+</style><style type="text/css">.MJX_Assistive_MathML {position: absolute!important; top: 0; left: 0; clip: rect(1px, 1px, 1px, 1px); padding: 1px 0 0 0!important; border: 0!important; height: 1px!important; width: 1px!important; overflow: hidden!important; display: block!important; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none}
+.MJX_Assistive_MathML.MJX_Assistive_MathML_Block {width: 100%!important}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><link rel="preload" href="./Java多线程程序休眠、暂停与停止 - liuyang0 - 博客园_files/f(1).txt" as="script"><script type="text/javascript" src="./Java多线程程序休眠、暂停与停止 - liuyang0 - 博客园_files/f(1).txt"></script><script src="./Java多线程程序休眠、暂停与停止 - liuyang0 - 博客园_files/pubads_impl_278.js.下载" async=""></script><style type="text/css">.MJXp-script {font-size: .8em}
+.MJXp-right {-webkit-transform-origin: right; -moz-transform-origin: right; -ms-transform-origin: right; -o-transform-origin: right; transform-origin: right}
+.MJXp-bold {font-weight: bold}
+.MJXp-italic {font-style: italic}
+.MJXp-scr {font-family: MathJax_Script,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-frak {font-family: MathJax_Fraktur,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-sf {font-family: MathJax_SansSerif,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-cal {font-family: MathJax_Caligraphic,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-mono {font-family: MathJax_Typewriter,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-largeop {font-size: 150%}
+.MJXp-largeop.MJXp-int {vertical-align: -.2em}
+.MJXp-math {display: inline-block; line-height: 1.2; text-indent: 0; font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap; border-collapse: collapse}
+.MJXp-display {display: block; text-align: center; margin: 1em 0}
+.MJXp-math span {display: inline-block}
+.MJXp-box {display: block!important; text-align: center}
+.MJXp-box:after {content: " "}
+.MJXp-rule {display: block!important; margin-top: .1em}
+.MJXp-char {display: block!important}
+.MJXp-mo {margin: 0 .15em}
+.MJXp-mfrac {margin: 0 .125em; vertical-align: .25em}
+.MJXp-denom {display: inline-table!important; width: 100%}
+.MJXp-denom > * {display: table-row!important}
+.MJXp-surd {vertical-align: top}
+.MJXp-surd > * {display: block!important}
+.MJXp-script-box > *  {display: table!important; height: 50%}
+.MJXp-script-box > * > * {display: table-cell!important; vertical-align: top}
+.MJXp-script-box > *:last-child > * {vertical-align: bottom}
+.MJXp-script-box > * > * > * {display: block!important}
+.MJXp-mphantom {visibility: hidden}
+.MJXp-munderover {display: inline-table!important}
+.MJXp-over {display: inline-block!important; text-align: center}
+.MJXp-over > * {display: block!important}
+.MJXp-munderover > * {display: table-row!important}
+.MJXp-mtable {vertical-align: .25em; margin: 0 .125em}
+.MJXp-mtable > * {display: inline-table!important; vertical-align: middle}
+.MJXp-mtr {display: table-row!important}
+.MJXp-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0 .5em}
+.MJXp-mtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-mlabeledtr {display: table-row!important}
+.MJXp-mlabeledtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mlabeledtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MJXp-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0); -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+.MJXp-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1); -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+.MJXp-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2); -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+.MJXp-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3); -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+.MJXp-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4); -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+.MJXp-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5); -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+.MJXp-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6); -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+.MJXp-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7); -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+.MJXp-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8); -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+.MJXp-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9); -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+.MathJax_PHTML .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style><link rel="prefetch" href="https://tpc.googlesyndication.com/safeframe/1-0-31/html/container.html"></head>
+<body><div id="MathJax_Message" style="display: none;"></div>
+<a name="top"></a>
+
+<div id="wrapper">
+<div id="header">
+
+<div id="top">
+<h1><a id="Header1_HeaderTitle" class="headermaintitle" href="https://www.cnblogs.com/liuyang0/">liuyang0</a></h1>
+<div id="subtitle">记录学习的点点滴滴</div>
+</div>
+<div id="sub"><div id="blog_stats">
+<div class="BlogStats">随笔 - 39, 文章 - 0, 评论 - 15, 引用 - 0</div>
+</div></div>
+
+
+
+</div>
+<div id="main_container">
+<div id="main_content">
+<div id="content">
+	
+<div id="post_detail">
+	<div class="post">
+		<h2>
+			<a id="cb_post_title_url" href="https://www.cnblogs.com/liuyang0/p/6386850.html">Java多线程程序休眠、暂停与停止</a>
+		</h2>
+		<div class="postbody">
+		<div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown"><h2 id="休眠"><strong>休眠</strong></h2>
+<p>  在Java多线程中，可以使用sleep()方法在指定毫秒数内让当前正在执行的线程休眠。<br>
+  下面这段代码，使得主函数的main线程休眠了2000ms，最后输出的间隔时间也是2000ms。</p>
+<pre class="java"><code class="hljs"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyThread</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Thread</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
+        <span class="hljs-keyword">try</span> {
+            <span class="hljs-keyword">long</span> begin;
+            <span class="hljs-keyword">long</span> end;
+            begin = System.currentTimeMillis();
+            System.out.println(<span class="hljs-string">"begin = "</span> + begin);
+            Thread.sleep(<span class="hljs-number">2000</span>);
+            end = System.currentTimeMillis();
+            System.out.println(<span class="hljs-string">"end = "</span> + end);
+            System.out.println(<span class="hljs-string">"end - begin = "</span> + (end - begin) + <span class="hljs-string">"ms"</span>);
+        } <span class="hljs-keyword">catch</span> (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+<p>输出结果：</p>
+<blockquote>
+<p>begin = 1486711105366<br>
+end = 1486711107366<br>
+end - begin = 2000ms</p>
+</blockquote>
+<h2 id="暂停"><strong>暂停</strong></h2>
+<p>  虽然suspend和resume方法可以分别使得线程暂停和回复，但是这两个方法因为有缺点而已经被弃用。</p>
+<p>缺点：</p>
+<ul>
+<li>独占：在使用suspend和resume方法时，如果使用不当，极易造成公共的同步对象独占，使得其他线程无法访问公共同步对象。</li>
+<li>不同步：在使用suspend与resume方法时也容易因为线程而导致数据不同步的情况。</li>
+</ul>
+<h3 id="yield方法">yield方法</h3>
+<p>  可以使用yield方法进行暂停。<br>
+  yield()方法的作用是放弃当前的CPU资源，将它让给其他任务去占用CPU执行时间。但放弃的时间不确定，有可能刚刚放弃，马上又获得CPU时间片。</p>
+<pre class="java"><code class="hljs"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyThread</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Thread</span> </span>{
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">long</span> beginTime = System.currentTimeMillis();
+        <span class="hljs-keyword">int</span> count = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">50000000</span>; i++) {
+            <span class="hljs-comment">//Thread.yield();</span>
+            count = count + (i + <span class="hljs-number">1</span>);
+        }
+        <span class="hljs-keyword">long</span> endTime = System.currentTimeMillis();
+        System.out.println(<span class="hljs-string">"用时: "</span> + (endTime - beginTime) + <span class="hljs-string">"ms"</span>);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
+        MyThread myThread = <span class="hljs-keyword">new</span> MyThread();
+        myThread.start();
+    }
+}</code></pre>
+<p>输出结果：</p>
+<blockquote>
+<p>用时: 21ms</p>
+</blockquote>
+<p>  去掉注释//Thread.yield()后。</p>
+<p>输出结果：</p>
+<blockquote>
+<p>用时: 4471ms</p>
+</blockquote>
+<p>  从第二次输出可以看出，用时明显变长。</p>
+<h2 id="停止"><strong>停止</strong></h2>
+<p>  虽然stop()可以停止一个线程，但是这个方法是不安全的，而且是已经被弃用作废的，最好不要使用它。</p>
+<h3 id="interrupt方法">interrupt()方法</h3>
+<p>  interrupt()方法的使用效果并不像for+break语句那个，马上就停止循环。调用interrupt()方法仅仅是在当前线程中打了一个停止的标记，并不是真正停止线程。</p>
+<h3 id="判断线程是否是停止状态">判断线程是否是停止状态</h3>
+<ul>
+<li>this.interrupted()：测试<strong>当前线程</strong>是否已经是中断状态，执行后具有将状态标志清楚为false的功能,为static方法。</li>
+<li>this.isInterrupted（）：测试线程Thread对象是否已经是中断状态，但是不清除状态标志。</li>
+</ul>
+<pre class="java"><code class="hljs"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyThread</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Thread</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
+        Thread.currentThread().interrupt();
+        System.out.println(<span class="hljs-string">"是否停止1？ "</span> + Thread.interrupted());
+        System.out.println(<span class="hljs-string">"是否停止2？ "</span> + Thread.interrupted());
+        System.out.println(<span class="hljs-string">"end"</span>);
+    }
+}</code></pre>
+<p>输出结果：</p>
+<blockquote>
+<p>是否停止1？ true<br>
+是否停止2？ false<br>
+end</p>
+</blockquote>
+<pre class="java"><code class="hljs"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyThread</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Thread</span> </span>{
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">50000</span>; i++) {
+            System.out.println(i);
+        }
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
+        <span class="hljs-keyword">try</span> {
+            MyThread myThread = <span class="hljs-keyword">new</span> MyThread();
+            myThread.start();
+            Thread.sleep(<span class="hljs-number">1000</span>);
+            myThread.interrupt();
+            System.out.println(<span class="hljs-string">"是否停止1？ "</span> + myThread.isInterrupted());
+            System.out.println(<span class="hljs-string">"是否停止2？ "</span> + myThread.isInterrupted());
+            System.out.println(<span class="hljs-string">"end"</span>);
+        } <span class="hljs-keyword">catch</span> (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+<p>输出结果(末尾)：</p>
+<blockquote>
+<p>49997<br>
+49998<br>
+49999<br>
+是否停止1？ false<br>
+是否停止2？ false<br>
+end</p>
+</blockquote>
+<h3 id="能停止线程的方法">能停止线程的方法</h3>
+<p>  在run中加一个判断，如果停止了，则break跳出循环体。</p>
+<pre class="java"><code class="hljs"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyThread</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Thread</span> </span>{
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">50000000</span>; i++) {
+            <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.interrupted()) {
+                System.out.println(<span class="hljs-string">"已经是停止状态了，我要退出了"</span>);
+                <span class="hljs-keyword">break</span>;
+            }
+            System.out.println(i);
+        }
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
+        <span class="hljs-keyword">try</span> {
+            MyThread myThread = <span class="hljs-keyword">new</span> MyThread();
+            myThread.start();
+            Thread.sleep(<span class="hljs-number">1000</span>);
+            myThread.interrupt();
+            System.out.println(<span class="hljs-string">"end"</span>);
+        } <span class="hljs-keyword">catch</span> (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+<p>输出结果(末尾):</p>
+<blockquote>
+<p>160560<br>
+160561<br>
+160562<br>
+160563<br>
+160564<br>
+end<br>
+已经是停止状态了，我要退出了</p>
+</blockquote>
+<p>  上述代码虽然可以停止线程，但是如果for的后面还有语句，那么还是会继续执行。<br>
+  因此可以用下述方法来解决。</p>
+<pre class="java"><code class="hljs"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyThread</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Thread</span> </span>{
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">try</span> {
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">50000000</span>; i++) {
+                <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.interrupted()) {
+                    System.out.println(<span class="hljs-string">"已经是停止状态了，我要退出了"</span>);
+                    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> InterruptedException();
+                }
+                System.out.println(i);
+            }
+            System.out.println(<span class="hljs-string">"for结束"</span>);
+        } <span class="hljs-keyword">catch</span> (InterruptedException e) {
+            System.out.println(<span class="hljs-string">"进入run中的catch了"</span>);
+            e.printStackTrace();
+        }
+
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
+        <span class="hljs-keyword">try</span> {
+            MyThread myThread = <span class="hljs-keyword">new</span> MyThread();
+            myThread.start();
+            Thread.sleep(<span class="hljs-number">1000</span>);
+            myThread.interrupt();
+            System.out.println(<span class="hljs-string">"end"</span>);
+        } <span class="hljs-keyword">catch</span> (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+<p>输出结果(末尾)：</p>
+<blockquote>
+<p>152891<br>
+152892<br>
+152893<br>
+152894<br>
+end<br>
+已经是停止状态了，我要退出了<br>
+进入run中的catch了<br>
+java.lang.InterruptedException<br>
+at mythread.MyThread.run(MyThread.java:13)</p>
+</blockquote>
+</div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="https://www.cnblogs.com/liuyang0/category/935948.html" target="_blank">java</a></div>
+<div id="EntryTag">标签: <a href="https://www.cnblogs.com/liuyang0/tag/java/">java</a>, <a href="https://www.cnblogs.com/liuyang0/tag/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">多线程</a></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(6386850,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow(&#39;96541960-c815-e611-9fc1-ac853d9f53cc&#39;);" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./Java多线程程序休眠、暂停与停止 - liuyang0 - 博客园_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="./Java多线程程序休眠、暂停与停止 - liuyang0 - 博客园_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/liuyang0/" target="_blank"><img src="./Java多线程程序休眠、暂停与停止 - liuyang0 - 博客园_files/sample_face.gif" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/liuyang0/">liuyang0</a><br>
+            <a href="http://home.cnblogs.com/u/liuyang0/followees">关注 - 0</a><br>
+            <a href="http://home.cnblogs.com/u/liuyang0/followers">粉丝 - 18</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow(&#39;96541960-c815-e611-9fc1-ac853d9f53cc&#39;);return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(6386850,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(6386850,&#39;Bury&#39;)">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="https://www.cnblogs.com/liuyang0/p/6323308.html" class="p_n_p_prefix">« </a> 上一篇：<a href="https://www.cnblogs.com/liuyang0/p/6323308.html" title="发布于2017-01-20 16:59">Java内部类基本使用</a><br><a href="https://www.cnblogs.com/liuyang0/p/6391425.html" class="p_n_p_prefix">» </a> 下一篇：<a href="https://www.cnblogs.com/liuyang0/p/6391425.html" title="发布于2017-02-12 17:49">设计模式之工厂模式</a><br></div>
+</div>
+
+
+		</div>
+		<p class="postfoot">
+			posted on <span id="post-date">2017-02-10 16:13</span> <a href="https://www.cnblogs.com/liuyang0/">liuyang0</a> 阅读(<span id="post_view_count">10357</span>) 评论(<span id="post_comment_count">0</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=6386850" rel="nofollow">编辑</a> <a href="https://www.cnblogs.com/liuyang0/p/6386850.html#" onclick="AddToWz(6386850);return false;">收藏</a>
+		</p>
+	</div>
+	<script src="./Java多线程程序休眠、暂停与停止 - liuyang0 - 博客园_files/highlight.min.js.下载"></script><script>markdown_highlight();</script><script type="text/javascript">var allowComments=true,cb_blogId=327507,cb_entryId=6386850,cb_blogApp=currentBlogApp,cb_blogUserGuid='96541960-c815-e611-9fc1-ac853d9f53cc',cb_entryCreatedDate='2017/2/10 16:13:00';loadViewCount(cb_entryId);var cb_postType=1;</script>
+	
+	</div><a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="https://www.cnblogs.com/liuyang0/p/6386850.html#" onclick="return RefreshPage();">刷新页面</a><a href="https://www.cnblogs.com/liuyang0/p/6386850.html#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login(&#39;commentform&#39;);">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank">【推荐】超50万VC++源码: 大型组态工控、电力仿真CAD与GIS源码库！</a><br><a href="http://clickc.admaster.com.cn/c/a113612,b3081535,c1705,i0,m101,8a1,8b3,h" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-EH&#39;)">【活动】华为云12.12会员节全场1折起 满额送Mate20</a><br><a href="http://clickc.admaster.com.cn/c/a116493,b2949399,c1705,i0,m101,8a1,8b3,h" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-会员节&#39;)">【活动】华为云会员节云服务特惠1折起</a><br><a href="https://cloud.tencent.com/developer/conf/2018-beijing?fromSource=gwzcw.1768694.1768694.1768694" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-腾讯云&#39;)">【活动】腾讯云+社区开发者大会12月15日首都北京盛大起航！</a><br></div>
+<div id="opt_under_post"></div>
+<div id="cnblogs_c1" class="c_ad_block"><a href="https://cloud.tencent.com/act/special/amd?fromSource=gwzcw.1351353.1351353.1351353" target="_blank"><img width="300" height="250" src="./Java多线程程序休眠、暂停与停止 - liuyang0 - 博客园_files/24442-20181129113406214-695115565.jpg" alt="腾讯云1129" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;C1&#39;);"></a></div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>相关博文：</b><br>·  <a href="https://www.cnblogs.com/xiaoxi/p/6896912.html" target="_blank" onclick="clickRecomItmem(6896912,&#39;rOTiNYEDmhPr/3Xdgj4D/7QTrT2H6BCP2y3eR1s0Lu9fSmo0Yiq6E5prG38ncigDaRy1d5Wd3hugIUz6Gim+bzePcbTHipus9XIeqRGXVC+96Qvb/oAzK1WsfCisUTFOyHbumkEkWLiEvLc/3rY=&#39;)">Java多线程（七）——线程休眠</a><br>·  <a href="https://www.cnblogs.com/tsh292278/p/9238200.html" target="_blank" onclick="clickRecomItmem(9238200,&#39;S6PXptSz8ktk0wBLG6hsOja4OcbNn46uddp0UI9RqwVdguRAQgJilAWX2irsRrn+ixrEuHcQH4aSzT3IYHN6usCpGuQw4on32scleKgvwEYntbLAZs4rHgYm3qRhkk/Suowa0boogcWP181P1ZE=&#39;)">C#多线程编程实战1.2暂停线程（休眠）</a><br>·  <a href="https://www.cnblogs.com/mengfanrong/p/5234525.html" target="_blank" onclick="clickRecomItmem(5234525,&#39;TCa//cT2KQYoCQMVlyQ6WGURpBSgew5zANeEK6NEebK1nRdh+WCn+Hlj7z8LsQ0dT2dcISp/WL5G+taNFGuGTtHOPkgiaoX/RD2Am4q//GkBI32ZPKZmruLRibd4G1EiGyDpdU8zcbuKiwoMe9c=&#39;)">JAVA单线程以及java多线程的实现方式</a><br>·  <a href="https://www.cnblogs.com/lonecloud/p/5774246.html" target="_blank" onclick="clickRecomItmem(5774246,&#39;6718clo+i4hnf4yPQTTqGvkZ/G85toIQG/lrskhJ7yr7kDlDJYDrGgV8irSNcvnTiUkQwhP5J8MITQhqOiytTV3QwTWkPMk/IwSlwxpDNGzuFcTekv5ttfwSz15AAelPPcBu7E/myb7PztZC7vA=&#39;)">Java多线程推荐使用的停止方法和暂停方法</a><br>·  <a href="https://www.cnblogs.com/bluewelkin/p/4056390.html" target="_blank" onclick="clickRecomItmem(4056390,&#39;MjA+yXm0n1uaMdK1EH2hl7O5wPbqnyR2q8MJi96yfFYLZTNpkf/4LMMzOSrWb94fTDEkFWY8qJcJ/ZMd4mfmHT6XkrELooSj7FiTuCoGZHKyn7OrE6xLcQ/IfQuH/ed2/Pxvs/cTfeVumn80c84=&#39;)">多线程</a><br></div></div>
+<script async="async" src="./Java多线程程序休眠、暂停与停止 - liuyang0 - 博客园_files/gpt.js.下载"></script>
+<script>
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+</script>
+
+<script>
+  googletag.cmd.push(function() {
+    googletag.defineSlot('/1090369/C2', [468, 60], 'div-gpt-ad-1539008685004-0').addService(googletag.pubads());
+    googletag.pubads().enableSingleRequest();
+    googletag.enableServices();
+  });
+</script>
+<div id="cnblogs_c2" class="c_ad_block">
+    <div id="div-gpt-ad-1539008685004-0" style="height:60px; width:468px;" data-google-query-id="COqn1f2Ak98CFQs4lgodMCQMHg">
+    <script>
+    if (new Date() >= new Date(2018, 9, 13)) {
+        googletag.cmd.push(function() { googletag.display('div-gpt-ad-1539008685004-0'); });
+    }
+    </script>
+    <div id="google_ads_iframe_/1090369/C2_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C2_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C2_0" width="468" height="60" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" style="border: 0px; vertical-align: bottom;" data-google-container-id="1" data-load-complete="true" src="./Java多线程程序休眠、暂停与停止 - liuyang0 - 博客园_files/saved_resource.html"></iframe></div></div>
+</div>
+<div id="under_post_kb"><div class="itnews c_ad_block"><b>最新新闻</b>：<br> ·  <a href="https://news.cnblogs.com/n/614433/" target="_blank">微软拥抱Chrome是它献给Windows用户最好的礼物</a><br> ·  <a href="https://news.cnblogs.com/n/614432/" target="_blank">比尔·盖茨：这个以悲剧收场的惊险故事令我爱不释手</a><br> ·  <a href="https://news.cnblogs.com/n/614431/" target="_blank">Mozilla Firefox包含一个存在了11年的“验证对话框”隐患</a><br> ·  <a href="https://news.cnblogs.com/n/614430/" target="_blank">苹果收购创业公司Platoon：帮助更多艺人成名</a><br> ·  <a href="https://news.cnblogs.com/n/614429/" target="_blank">ofo印度被收购，另一场“中国式”共享单车混战正在上演</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();
+    deliverAdC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);   
+</script>
+</div>
+
+
+</div>
+</div>
+<div id="leftmenu">
+
+
+<h3>导航</h3>
+<ul>
+<li>
+<a id="blog_nav_sitehome" href="https://www.cnblogs.com/">博客园</a></li>
+<li>
+<a id="blog_nav_myhome" class="two_words" href="https://www.cnblogs.com/liuyang0/">首页</a></li>
+<li>
+<a id="blog_nav_newpost" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+<li>
+<a id="blog_nav_contact" accesskey="9" class="two_words" rel="nofollow" href="https://msg.cnblogs.com/send/liuyang0">联系</a></li>
+<li>
+<a id="blog_nav_rss" class="two_words" href="https://www.cnblogs.com/liuyang0/rss">订阅</a>
+<a id="blog_nav_rss_image" href="https://www.cnblogs.com/liuyang0/rss"><img src="./Java多线程程序休眠、暂停与停止 - liuyang0 - 博客园_files/xml.gif" alt="订阅"></a>
+</li>
+<li>
+<a id="blog_nav_admin" class="two_words" rel="nofollow" href="https://i.cnblogs.com/">管理</a></li>
+</ul>
+
+<div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2018/11/01&#39;);return false;">&lt;</a></td><td align="center">2018年12月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2019/01/01&#39;);return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" align="center" abbr="日" scope="col">日</th><th class="CalDayHeader" align="center" abbr="一" scope="col">一</th><th class="CalDayHeader" align="center" abbr="二" scope="col">二</th><th class="CalDayHeader" align="center" abbr="三" scope="col">三</th><th class="CalDayHeader" align="center" abbr="四" scope="col">四</th><th class="CalDayHeader" align="center" abbr="五" scope="col">五</th><th class="CalDayHeader" align="center" abbr="六" scope="col">六</th></tr><tr><td class="CalOtherMonthDay" align="center">25</td><td class="CalOtherMonthDay" align="center">26</td><td class="CalOtherMonthDay" align="center">27</td><td class="CalOtherMonthDay" align="center">28</td><td class="CalOtherMonthDay" align="center">29</td><td class="CalOtherMonthDay" align="center">30</td><td class="CalWeekendDay" align="center">1</td></tr><tr><td class="CalWeekendDay" align="center">2</td><td align="center">3</td><td align="center">4</td><td align="center">5</td><td align="center">6</td><td align="center">7</td><td class="CalWeekendDay" align="center">8</td></tr><tr><td class="CalTodayDay" align="center">9</td><td align="center">10</td><td align="center">11</td><td align="center">12</td><td align="center">13</td><td align="center">14</td><td class="CalWeekendDay" align="center">15</td></tr><tr><td class="CalWeekendDay" align="center">16</td><td align="center">17</td><td align="center">18</td><td align="center">19</td><td align="center">20</td><td align="center">21</td><td class="CalWeekendDay" align="center">22</td></tr><tr><td class="CalWeekendDay" align="center">23</td><td align="center">24</td><td align="center">25</td><td align="center">26</td><td align="center">27</td><td align="center">28</td><td class="CalWeekendDay" align="center">29</td></tr><tr><td class="CalWeekendDay" align="center">30</td><td align="center">31</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script>
+<meta name="vs_showGrid" content="False">
+
+<h3>公告</h3>
+<div id="blog-news">访问人数：<div align="center"><img border="0" src="./Java多线程程序休眠、暂停与停止 - liuyang0 - 博客园_files/counter.php" alt="AmazingCounters.com" title="访问人数"><br></div>
+总访问量：<div align="center"><img border="0" src="./Java多线程程序休眠、暂停与停止 - liuyang0 - 博客园_files/counter(1).php" alt="AmazingCounters.com" title="总访问量"><br></div><div id="profile_block">昵称：<a href="https://home.cnblogs.com/u/liuyang0/">liuyang0</a><br>园龄：<a href="https://home.cnblogs.com/u/liuyang0/" title="入园时间：2016-05-09">2年7个月</a><br>粉丝：<a href="https://home.cnblogs.com/u/liuyang0/followers/">18</a><br>关注：<a href="https://home.cnblogs.com/u/liuyang0/followees/">0</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow(&#39;96541960-c815-e611-9fc1-ac853d9f53cc&#39;)">+加关注</a></div><script>getFollowStatus('96541960-c815-e611-9fc1-ac853d9f53cc')</script></div></div><script type="text/javascript">loadBlogNews();</script>
+
+<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk"></div>
+<div id="widget_my_google" class="div_my_zzk"><input type="text" name="google_q" id="google_q" onkeydown="return google_go_enter(event)" class="input_my_zzk">&nbsp;<input onclick="google_go()" type="button" value="谷歌搜索" class="btn_my_zzk"></div>
+</div>
+</div>
+
+</div><div id="sidebar_shortcut" class="sidebar-block">
+<h3 class="catListTitle">常用链接</h3>
+<ul>
+<li><a href="https://www.cnblogs.com/liuyang0/p/" title="我的博客的随笔列表">我的随笔</a></li><li><a href="https://www.cnblogs.com/liuyang0/MyComments.html" title="我发表过的评论列表">我的评论</a></li><li><a href="https://www.cnblogs.com/liuyang0/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li><li><a href="https://www.cnblogs.com/liuyang0/RecentComments.html" title="我的博客的评论列表">最新评论</a></li><li><a href="https://www.cnblogs.com/liuyang0/tag/" title="我的博客的标签列表">我的标签</a></li>
+</ul>
+<div id="itemListLin_con" style="display:none;">
+
+</div></div><div id="sidebar_toptags" class="sidebar-block">
+<h3 class="catListTitle">我的标签</h3>
+<div id="MyTag">
+<ul>
+<li><a href="https://www.cnblogs.com/liuyang0/tag/java/">java</a>(20)</li><li><a href="https://www.cnblogs.com/liuyang0/tag/jvm/">jvm</a>(5)</li><li><a href="https://www.cnblogs.com/liuyang0/tag/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>(5)</li><li><a href="https://www.cnblogs.com/liuyang0/tag/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>(5)</li><li><a href="https://www.cnblogs.com/liuyang0/tag/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>(3)</li><li><a href="https://www.cnblogs.com/liuyang0/tag/linux/">linux</a>(3)</li><li><a href="https://www.cnblogs.com/liuyang0/tag/jdk%E6%BA%90%E7%A0%81/">jdk源码</a>(3)</li><li><a href="https://www.cnblogs.com/liuyang0/tag/GC/">GC</a>(3)</li><li><a href="https://www.cnblogs.com/liuyang0/tag/Redis/">Redis</a>(2)</li><li><a href="https://www.cnblogs.com/liuyang0/tag/spring/">spring</a>(2)</li><li><a href="https://www.cnblogs.com/liuyang0/tag/">更多</a></li>
+</ul>
+</div></div><div id="sidebar_categories">
+		<h3>随笔分类</h3>
+		
+				<ul>
+			
+				<li><a id="CatList_LinkList_0_Link_0" href="https://www.cnblogs.com/liuyang0/category/936862.html">Git(1)</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_1" href="https://www.cnblogs.com/liuyang0/category/935948.html">java(15)</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_2" href="https://www.cnblogs.com/liuyang0/category/949171.html">JVM(5)</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_3" href="https://www.cnblogs.com/liuyang0/category/936861.html">linux(3)</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_4" href="https://www.cnblogs.com/liuyang0/category/1123515.html">MachineLearning(1)</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_5" href="https://www.cnblogs.com/liuyang0/category/954855.html">mybatis(1)</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_6" href="https://www.cnblogs.com/liuyang0/category/954854.html">spring(2)</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_7" href="https://www.cnblogs.com/liuyang0/category/989001.html">分布式(2)</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_8" href="https://www.cnblogs.com/liuyang0/category/936864.html">设计模式(4)</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_9" href="https://www.cnblogs.com/liuyang0/category/936863.html">数据结构与算法(5)</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_10" href="https://www.cnblogs.com/liuyang0/category/949281.html">数据库(3)</a></li>
+			
+				<li><a id="CatList_LinkList_0_Link_11" href="https://www.cnblogs.com/liuyang0/category/987321.html">搜索引擎(1)</a></li>
+			
+				</ul>
+			
+	
+		<h3>随笔档案</h3>
+		
+				<ul>
+			
+				<li><a id="CatList_LinkList_1_Link_0" href="https://www.cnblogs.com/liuyang0/archive/2017/11.html">2017年11月 (1)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_1" href="https://www.cnblogs.com/liuyang0/archive/2017/05.html">2017年5月 (1)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_2" href="https://www.cnblogs.com/liuyang0/archive/2017/04.html">2017年4月 (6)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_3" href="https://www.cnblogs.com/liuyang0/archive/2017/03.html">2017年3月 (6)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_4" href="https://www.cnblogs.com/liuyang0/archive/2017/02.html">2017年2月 (12)</a></li>
+			
+				<li><a id="CatList_LinkList_1_Link_5" href="https://www.cnblogs.com/liuyang0/archive/2017/01.html">2017年1月 (13)</a></li>
+			
+				</ul>
+			
+	</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap">
+<h3 class="catListTitle">最新评论</h3>
+<div class="RecentComment" id="RecentComments">
+	<div id="RecentCommentsBlock"><ul>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/liuyang0/p/6800538.html#4096667">1. Re:分布式锁与实现（二）——基于ZooKeeper实现</a></li>
+        <li class="recent_comment_body">请问 exceptionList 这个属性在这里有什么用?</li>
+        <li class="recent_comment_author">--毅毅毅毅毅丶</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/liuyang0/p/6293873.html#4091947">2. Re:Linux内核数据结构之链表</a></li>
+        <li class="recent_comment_body">示例程序不错！</li>
+        <li class="recent_comment_author">--Eagle-jie</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/liuyang0/p/6800538.html#4044741">3. Re:分布式锁与实现（二）——基于ZooKeeper实现</a></li>
+        <li class="recent_comment_body">您好，请问zk.exists（）和zk.create() 方法报错吗？我用单个zk是可执行的，但是地址改成集群模式的就开始报错了，这需要怎么处理啊</li>
+        <li class="recent_comment_author">--发呆的乌龟</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/liuyang0/p/6800538.html#4034406">4. Re:分布式锁与实现（二）——基于ZooKeeper实现</a></li>
+        <li class="recent_comment_body">@水煮海鲜如果非最小变化到最小，监听到之后肯定会执行countdown方法，再执行await方法其实并不会再阻塞了。await方法阻塞前提是&gt;0...</li>
+        <li class="recent_comment_author">--aNULL</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/liuyang0/p/6271331.html#4027847">5. Re:Java实现二叉树的前序、中序、后序、层序遍历（非递归方法）</a></li>
+        <li class="recent_comment_body">感谢楼主</li>
+        <li class="recent_comment_author">--林冲—first</li>
+</ul>
+</div>
+</div>
+</div></div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<h3 class="catListTitle">阅读排行榜</h3>
+<div class="RecentComment" id="TopViewPosts"> 
+	<div id="TopViewPostsBlock"><ul><li><a href="https://www.cnblogs.com/liuyang0/p/6744076.html">1. 分布式锁与实现(一)——基于Redis实现(35379)</a></li><li><a href="https://www.cnblogs.com/liuyang0/p/6800538.html">2. 分布式锁与实现（二）——基于ZooKeeper实现(18674)</a></li><li><a href="https://www.cnblogs.com/liuyang0/p/6386850.html">3. Java多线程程序休眠、暂停与停止(10355)</a></li><li><a href="https://www.cnblogs.com/liuyang0/p/6271331.html">4. Java实现二叉树的前序、中序、后序、层序遍历（非递归方法）(9248)</a></li><li><a href="https://www.cnblogs.com/liuyang0/p/6271324.html">5. Java实现二叉树的前序、中序、后序、层序遍历（递归方法）(7408)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<h3 class="catListTitle">评论排行榜</h3>
+<div class="RecentComment" id="TopCommentsPosts">
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="https://www.cnblogs.com/liuyang0/p/6800538.html">1. 分布式锁与实现（二）——基于ZooKeeper实现(7)</a></li><li><a href="https://www.cnblogs.com/liuyang0/p/6744076.html">2. 分布式锁与实现(一)——基于Redis实现(4)</a></li><li><a href="https://www.cnblogs.com/liuyang0/p/6710137.html">3. Java解决TopK问题（使用集合和直接实现）(1)</a></li><li><a href="https://www.cnblogs.com/liuyang0/p/6445211.html">4. IDEA下创建Maven项目，并整合使用Spring、Spring MVC、Mybatis框架(1)</a></li><li><a href="https://www.cnblogs.com/liuyang0/p/6271331.html">5. Java实现二叉树的前序、中序、后序、层序遍历（非递归方法）(1)</a></li></ul></div>
+</div></div></div><div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div class="RecentComment">
+	<div id="TopDiggPostsBlock"><ul><li><a href="https://www.cnblogs.com/liuyang0/p/6668922.html">1. 浅析红黑树(一)——红黑树的插入(3)</a></li><li><a href="https://www.cnblogs.com/liuyang0/p/6664586.html">2. Java实现缓存(LRU,FIFO)(3)</a></li><li><a href="https://www.cnblogs.com/liuyang0/p/6476073.html">3. JVM类加载机制(1)</a></li><li><a href="https://www.cnblogs.com/liuyang0/p/6271343.html">4. Java用自定义的类型作为HashMap的key(1)</a></li><li><a href="https://www.cnblogs.com/liuyang0/p/6271331.html">5. Java实现二叉树的前序、中序、后序、层序遍历（非递归方法）(1)</a></li></ul></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script>
+
+</div>
+</div>
+<div class="clear"></div>
+<div id="footer">
+
+<p id="footer">
+	Powered by: 
+	<br>
+	
+	<a id="Footer1_Hyperlink3" name="Hyperlink1" href="https://www.cnblogs.com/" style="font-family:Verdana;font-size:12px;">博客园</a>
+	<br>
+	Copyright © liuyang0
+</p>
+</div>
+</div>
+
+<!--PageEndHtml Block Begin-->
+<img src="./Java多线程程序休眠、暂停与停止 - liuyang0 - 博客园_files/saved_resource" alt="Flag Counter" border="0">
+<!--PageEndHtml Block End-->
+
+
+<iframe id="google_osd_static_frame_3105353467446" name="google_osd_static_frame" style="display: none; width: 0px; height: 0px;" src="./Java多线程程序休眠、暂停与停止 - liuyang0 - 博客园_files/saved_resource(1).html"></iframe></body></html>
