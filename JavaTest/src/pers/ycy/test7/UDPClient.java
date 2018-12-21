@@ -6,7 +6,7 @@ import java.net.*;
 public class UDPClient {
     public static void main(String[] args) {
         try {
-            InetAddress address = InetAddress.getByName("196.168.11.68");
+            InetAddress address = InetAddress.getByName("localhost");
             DatagramSocket socket = new DatagramSocket();
             byte[] data = "hello".getBytes();
             DatagramPacket dp = new DatagramPacket(data, data.length, address, 9527);

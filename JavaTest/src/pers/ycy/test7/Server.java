@@ -1,42 +1,49 @@
 package pers.ycy.test7;
 
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Server {
 
+    public static void main(String args[]) {
 
-    public static void main(String[] args) {
-        ServerSocket server = null;
-        Socket socket = null;
         try {
-            server = new ServerSocket(9527);
-            System.out.println("服务器启动完成");
-            socket = server.accept();
-            System.out.println("创建客户连接");
+            ServerSocket serverSocket = new ServerSocket(8888);
+            System.out.println("---创建服务器成功，等待接入---");
+            Socket socket = serverSocket.accept();
+            System.out.println("---接入成功---");
+
             InputStream inputStream = socket.getInputStream();
-            InputStreamReader isReader = new InputStreamReader(inputStream);
-            BufferedReader reader = new BufferedReader(isReader);
-            while (true) {
-                String readLine = reader.readLine();
-                if (readLine.equals("exit"))
-                    break;
-                System.out.println("接收到的内容" + readLine);
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+            BufferedReader reader = new BufferedReader(inputStreamReader);
+
+            OutputStream outputStream = socket.getOutputStream();
+            PrintWriter printWriter = new PrintWriter(outputStream);
+
+            String getContent = null;
+            while ((getContent = reader.readLine()) != null) {
+                System.out.println(getContent);
+                if (getContent.equals("start")) {
+                    printWriter.print("OK");
+                    printWriter.flush();
+                }
             }
-            System.out.println("断开连接");
-            reader.close();
-            isReader.close();
+
+            socket.shutdownInput();
+            socket.shutdownOutput();
+            outputStream.close();
+            printWriter.close();
             inputStream.close();
+            inputStreamReader.close();
+            reader.close();
             socket.close();
-            server.close();
+            serverSocket.close();
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
 
+    }
 }

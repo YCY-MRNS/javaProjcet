@@ -1,20 +1,43 @@
 package pers.ycy.test7;
 
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.Socket;
 
+/**
+ * @Author:袁阊越
+ * @Package：pers.ycy.test7
+ * @Date: 2018/12/21 12:08
+ * @Description:
+ **/
+
 public class Client {
+
     public static void main(String[] args) {
         try {
-            Socket socket = new Socket("192.168.11.68", 5209);
-            OutputStream out = socket.getOutputStream();
-            out.write("这是第一次".getBytes());
-            out.write("Start".getBytes());
+            Socket socket = new Socket("localhost", 8888);
+            OutputStream outputStream = socket.getOutputStream();
+            PrintWriter printWriter = new PrintWriter(outputStream);
+            printWriter.print("start");
+            printWriter.flush();
+            socket.shutdownOutput();
+
+            InputStream inputStream = socket.getInputStream();
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+            BufferedReader reader = new BufferedReader(inputStreamReader);
+            String getContent = null;
+            while ((getContent = reader.readLine()) != null) {
+                System.out.println(getContent);
+            }
+
+            socket.shutdownInput();
+            inputStream.close();
+            inputStreamReader.close();
+            reader.close();
+            outputStream.close();
+            socket.close();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 }
