@@ -17,10 +17,11 @@ public class ServerConnection {
                 Socket socket = serverSocket.accept();
                 SocketThread socketThread = new SocketThread(socket);
                 socketThread.start();
+                System.out.println("---有新的客户端连接成功---");
                 count++;
                 System.out.println(count);
-
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }

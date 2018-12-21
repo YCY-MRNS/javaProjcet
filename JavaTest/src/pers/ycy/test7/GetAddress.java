@@ -8,7 +8,7 @@ public class GetAddress {
     public static void main(String[] args) {
         try {
             InetAddress inetAddress = InetAddress.getByName("www.cqust.edu.cn");
-            InetAddress localHost = InetAddress.getByName("192.168.11.68");
+            InetAddress localHost = InetAddress.getByName("localhost");
 
             String hostAddress = inetAddress.getHostAddress();
             String localHostName = localHost.getHostName();

@@ -6,7 +6,7 @@ import java.net.Socket;
 public class SocketThread extends Thread {
     private Socket socket = null;
 
-    public SocketThread(Socket socket) {
+    SocketThread(Socket socket) {
         this.socket = socket;
     }
 
@@ -30,10 +30,8 @@ public class SocketThread extends Thread {
             String getContent = null;
             while ((getContent = reader.readLine()) != null) {
                 System.out.println(getContent);
-                if (getContent.equals("start")) {
-                    printWriter.print("OK");
-                    printWriter.flush();
-                }
+                printWriter.print("Let’s have class!");
+                printWriter.flush();
             }
         } catch (IOException e) {
             e.printStackTrace();

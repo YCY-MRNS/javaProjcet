@@ -8,7 +8,7 @@ public class ScanningIp {
     public static void main(String[] args) {
         String IP = null;
         for (int i = 10; i <= 50; i++) {
-            IP = "192.168.11" + i;
+            IP = "192.168.11." + i;
             try {
                 InetAddress host = InetAddress.getByName(IP);
                 if (host.isReachable(1000)) {
