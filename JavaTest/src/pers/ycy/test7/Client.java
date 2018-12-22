@@ -15,6 +15,7 @@ public class Client {
     public static void main(String[] args) {
         try {
             Socket socket = new Socket("localhost", 8888);
+
             OutputStream outputStream = socket.getOutputStream();
             PrintWriter printWriter = new PrintWriter(outputStream);
             printWriter.print("start");
@@ -30,6 +31,7 @@ public class Client {
             }
 
             socket.shutdownInput();
+
             inputStream.close();
             inputStreamReader.close();
             reader.close();
