@@ -26,7 +26,7 @@ public class ServerConnection {
                 socketThread.start();
                 System.out.println("---有新的客户端连接成功---");
                 count++;
-                System.out.println(count);
+                System.out.println("这是客服端" + count);
             }
 
         } catch (IOException e) {

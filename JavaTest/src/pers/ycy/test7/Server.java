@@ -29,7 +29,7 @@ public class Server {
 
             String getContent = null;
             while ((getContent = reader.readLine()) != null) {
-                System.out.println(getContent);
+                System.out.println("收到来自客服端的信息：" + getContent);
                 if (getContent.equals("start")) {
                     printWriter.print("OK");
                     printWriter.flush();
