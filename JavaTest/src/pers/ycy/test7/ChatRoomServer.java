@@ -10,6 +10,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 
+/**
+ * @Author:袁阊越
+ * @Package：pers.ycy.test7
+ * @Date: 2018/12/21 12:08
+ * @Description:
+ **/
 public class ChatRoomServer {
     private ServerSocket ss;
     private HashSet<Socket> allSockets;

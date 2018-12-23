@@ -3,6 +3,13 @@ package pers.ycy.test7;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+/**
+ * @Author:袁阊越
+ * @Package：pers.ycy.test7
+ * @Date: 2018/12/21 12:08
+ * @Description:
+ **/
+
 public class GetAddress {
 
     public static void main(String[] args) {

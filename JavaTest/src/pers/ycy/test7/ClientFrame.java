@@ -8,6 +8,12 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 
+/**
+ * @Author:袁阊越
+ * @Package：pers.ycy.test7
+ * @Date: 2018/12/21 12:08
+ * @Description:
+ **/
 public class ClientFrame extends JFrame {
     private JTextField field; // 信息发送文本框
     private JLabel label; // 显示用户名

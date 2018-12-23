@@ -3,6 +3,13 @@ package pers.ycy.test7;
 import java.io.*;
 import java.net.Socket;
 
+/**
+ * @Author:袁阊越
+ * @Package：pers.ycy.test7
+ * @Date: 2018/12/21 12:08
+ * @Description:
+ **/
+
 public class SocketThread extends Thread {
     private Socket socket = null;
 
